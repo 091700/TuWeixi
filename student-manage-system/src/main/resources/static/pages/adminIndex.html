@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员主页 - 学生信息管理</title>
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="header">
+        <h1>管理员主页</h1>
+        <div class="user-info">
+            <span id="username"></span>
+            <button id="logoutBtn">退出登录</button>
+        </div>
+    </div>
+
+    <div class="tab-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="student-tab">学生信息管理</button>
+            <button class="tab-btn" data-tab="teacher-tab">教师管理</button>
+        </div>
+
+        <div class="tab-content active" id="student-tab">
+            <div class="filter-container">
+                <input type="text" id="studentName" placeholder="学生姓名（模糊搜索）">
+                <input type="text" id="studentMajor" placeholder="专业">
+                <input type="text" id="studentClass" placeholder="班级">
+                <input type="number" id="minScore" placeholder="最低成绩">
+                <input type="number" id="maxScore" placeholder="最高成绩">
+                <button id="searchStudentBtn">查询</button>
+                <button id="resetStudentBtn">重置</button>
+            </div>
+
+            <div class="operate-btn">
+                <button id="addStudentBtn">新增学生</button>
+                <button id="deleteStudentBtn">删除选中</button>
+                <label for="importFile" class="file-label">选择文件</label>
+                <input type="file" id="importFile" accept=".xlsx" >
+                <button id="importStudentBtn" style="display:none;">批量导入</button>
+                <button id="exportStudentBtn" style="display:none;">批量导出</button>
+            </div>
+
+            <table id="studentTable" class="data-table">
+                <thead>
+                    <tr>
+                        <label for="selectAllStudent">全选</label>
+                        <th><input type="checkbox" id="selectAllStudent"></th>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>专业</th>
+                        <th>班级</th>
+                        <th>成绩</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="teacher-tab">
+            <div class="operate-btn">
+                <button id="addTeacherBtn">新增教师</button>
+            </div>
+
+            <table id="teacherTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>关联班级</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="teacherTableBody">
+                    <!-- JS动态填充 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 新增/编辑学生弹窗 -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="studentModalTitle">新增学生</h3>
+            <form id="studentForm">
+                <input type="hidden" id="studentId">
+                <div class="form-item">
+                    <label for="studentNo">学号：</label>
+                    <input type="text" id="studentNo" required>
+                </div>
+                <div class="form-item">
+                    <label for="name">姓名：</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-item">
+                    <label for="gender">性别：</label>
+                    <select id="gender" required>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label for="age">年龄：</label>
+                    <input type="number" id="age" min="15" max="30" required>
+                </div>
+                <div class="form-item">
+                    <label for="major">专业：</label>
+                    <input type="text" id="major" required>
+                </div>
+                <div class="form-item">
+                    <label for="className">班级：</label>
+                    <input type="text" id="className" required>
+                </div>
+                <div class="form-item">
+                    <label for="score">成绩：</label>
+                    <input type="number" id="score" min="0" max="100" step="0.1" required>
+                </div>
+                <div class="form-item">
+                    <button type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 新增/编辑教师弹窗 -->
+    <div id="teacherModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="teacherModalTitle">新增教师</h3>
+            <form id="teacherForm">
+                <input type="hidden" id="teacherId">
+                <div class="form-item">
+                    <label for="teacherUsername">用户名：</label>
+                    <input type="text" id="teacherUsername" required>
+                </div>
+                <div class="form-item">
+                    <label for="teacherPassword">密码：</label>
+                    <input type="text" id="teacherPassword" required>
+                </div>
+                <div class="form-item">
+                    <label for="teacherClassId">关联班级：</label>
+                    <input type="text" id="teacherClassId" required>
+                </div>
+                <div class="form-item">
+                    <button type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/adminIndex.js"></script>
+</body>
+</html>

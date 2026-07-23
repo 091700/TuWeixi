@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息管理系统</title>
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>信息管理系统</h2>
+        <form id="loginForm">
+            <div class="form-item">
+                <label>用户名：</label>
+                <input type="text" name="username" required placeholder="请输入用户名">
+            </div>
+            <div class="form-item">
+                <label>密码：</label>
+                <input type="password" name="password" required placeholder="请输入密码">
+            </div>
+            <div class="form-item">
+                <button type="submit">登录</button>
+            </div>
+            <div id="errorMsg" class="error-msg"></div>
+        </form>
+    </div>
+
+    <script src="../js/login.js"></script>
+</body>
+</html>

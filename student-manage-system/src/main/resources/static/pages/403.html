@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>无权限访问</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        .forbidden-container {
+            text-align: center;
+            margin-top: 100px;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .forbidden-container h1 {
+            color: #f56c6c;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .forbidden-container p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .forbidden-container button {
+            padding: 10px 20px;
+            background-color: #409eff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="forbidden-container">
+        <h1>403 - 无权限访问</h1>
+        <p>您当前的账号权限不足，无法访问此页面或执行此操作</p>
+        <button onclick="window.location.href = '/pages/login.html'">返回登录页</button>
+    </div>
+</body>
+</html>

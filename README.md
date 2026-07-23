@@ -1,11 +1,11 @@
-# 👨‍💻 TuWeixi (涂维兮) — Full-Stack Developer & AI Engineer
+# 👨‍💻 TuWeixi  — Full-Stack Developer & AI Engineer
 
 [![GitHub Stars](https://img.shields.io/github/stars/091700/TuWeixi?style=flat&color=blue)](https://github.com/091700/TuWeixi/stargazers)
 [![Projects](https://img.shields.io/badge/Projects-12-blue?style=flat)](https://github.com/091700/TuWeixi)
 [![Languages](https://img.shields.io/badge/Languages-Java_|_Python_|_JavaScript_|_PHP_|_C%23_|_GDScript-blueviolet?style=flat)]()
 [![AI](https://img.shields.io/badge/AI-DeepSeek_|_Whisper_|_YOLO_|_Qwen_|_ChromaDB-brightgreen?style=flat)]()
 
-> 电子科技大学毕业 · 全栈项目工程师 · AI 应用落地的狂热爱好者
+> 浙江师范大学毕业 · 全栈项目工程师 · AI 应用落地的爱好者
 
 ---
 

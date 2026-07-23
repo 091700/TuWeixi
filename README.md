@@ -15,11 +15,8 @@
 
 ---
 
-## TL;DR（面试官 30 秒速览）
 
 这是一个 **从零手写的 LLM Agent 全栈项目**——不做 LangChain/LlamaIndex 的 API 调用者，而是把 Agent 的 Loop Control、Memory、Multi-Agent Orchestration 三个核心技术全部自己实现了一遍。
-
-> **重点**：如果你在看 Agent 算法深度，直接跳到[三、Agent 算法详解](#三agent-算法详解面试核心内容)。如果你在看安全/工程水准，直接跳到[四、安全架构](#四安全架构)。
 
 ---
 

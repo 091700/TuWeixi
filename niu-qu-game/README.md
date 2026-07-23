@@ -96,4 +96,8 @@ cave_1 → (击败蜘蛛女王) → cave_2 → (击败大公鸡领主)
 
 ## 技术栈
 
+<<<<<<< Updated upstream
 Godot 4 · GDScript · 纯节点体系（无第三方插件依赖）
+=======
+Godot 4 · GDScript · 纯节点体系（无第三方插件依赖）
+>>>>>>> Stashed changes

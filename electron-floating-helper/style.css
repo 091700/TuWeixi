@@ -1,0 +1,474 @@
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --text-main: #2c3e50;
+  --border-color: rgba(255, 255, 255, 0.5);
+  --bg-color: rgba(255, 255, 255, 0.85);
+  --side-bg: rgba(0, 0, 0, 0.05);
+  --side-hover-bg: rgba(0, 0, 0, 0.1); 
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Segoe UI Mono', 'Consolas', monospace;
+  --time-gradient: linear-gradient(90deg,  #ff9f43, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
+}
+
+/* 深色模式变量 */
+[data-theme="dark"] {
+  --bg-color: rgba(45, 52, 54, 0.9);
+  --border-color: rgba(99, 110, 114, 0.5);
+  --text-primary: #dfe6e9;
+  --text-secondary: #a0a7ac;
+  --side-bg: rgba(255, 255, 255, 0.1);
+  --side-hover-bg: rgba(255, 255, 255, 0.2);
+  animation: flow-gradient 27.5s linear infinite;
+  background-size: 1000% 100%;
+  --ani-speed: 11s;
+  --time-gradient: linear-gradient(90deg, 
+    #6c5ce7, #0984e3, #00cec9, #55efc4, #ffeaa7, 
+    #fab1a0, #ff7675, #fd79a8, #a29bfe, #74b9ff);
+}
+
+/* 毛玻璃模式变量 */
+[data-theme="glass"] {
+  --bg-color: rgba(255, 255, 255, 0.4);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --text-primary: #2d3436;
+  --text-secondary: #636e72;
+  --side-bg: rgba(255, 255, 255, 0.15);
+  --side-hover-bg: rgba(255, 255, 255, 0.25);
+}
+[data-theme="sakura"] {
+  --bg-color: rgba(255, 240, 245, 0.9);
+  --text-primary: #d63384;
+  --text-secondary: #f06292;
+  --border-color: rgba(255, 182, 193, 0.5);
+  --side-bg: rgba(255, 182, 193, 0.2);
+  --time-gradient: linear-gradient(90deg, #ff9a9e, #fad0c4, #ffd1ff, #ff9a9e);
+}
+[data-theme="matcha"] {
+  --bg-color: rgba(240, 255, 240, 0.9);
+  --text-primary: #2d5a27;
+  --text-secondary: #689f38;
+  --border-color: rgba(165, 214, 167, 0.5);
+  --side-bg: rgba(165, 214, 167, 0.2);
+  --time-gradient: linear-gradient(90deg, #56ab2f, #a8e063, #dce35b, #56ab2f);
+}
+[data-theme="ocean"] {
+  --bg-color: rgba(13, 71, 161, 0.85);
+  --text-primary: #e3f2fd;
+  --text-secondary: #90caf9;
+  --border-color: rgba(144, 202, 249, 0.3);
+  --side-bg: rgba(255, 255, 255, 0.1);
+  --time-gradient: linear-gradient(90deg, #4facfe, #00f2fe, #706fd3, #4facfe);
+}
+[data-theme="cyber"] {
+  --bg-color: rgba(20, 20, 35, 0.95);
+  --text-primary: #00f2ff; /* 霓虹青 */
+  --text-secondary: #ff00ff; /* 霓虹紫 */
+  --border-color: rgba(0, 242, 255, 0.4);
+  --side-bg: rgba(255, 0, 255, 0.1);
+  --time-gradient: linear-gradient(90deg, #00f2ff, #7d2ae8, #ff00ff, #00f2ff);
+}
+[data-theme] .control-btn {
+  color: var(--text-primary);
+  text-shadow: 0 0 2px rgba(0,0,0,0.1); /* 增加一点字影提升对比度 */
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  user-select: none;
+  margin: 0;
+  /* 移除 transform 缩放，只靠窗口大小变化 */
+}
+
+/* 通用窗口样式 */
+.window {
+  display: flex;
+  height: 100vh;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  border-radius: 13px;
+  overflow: hidden;
+  color: var(--text-primary);
+  flex-direction: column !important;
+}
+
+/* 左侧头像区 */
+.side-avatar {
+  flex: 0 0 100px;
+  background: var(--side-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-app-region: drag; /* 允许拖动 */
+  transition: background 0.3s;
+}
+.side-avatar:hover { background: var(--side-hover-bg); }
+
+.logo-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+    -webkit-app-region: no-drag; /* 奶龙区域不可拖动，以便点击 */
+    cursor: pointer;       
+}
+.side-avatar:hover .logo-container { transform: scale(1.15); }
+.side-avatar:active { cursor: grabbing; }
+
+.avatar-item {
+    position: absolute;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+.avatar-item.active { opacity: 1; }
+
+/* 右侧信息区 */
+.main-info {
+  flex: 1;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-app-region: drag; /* 允许拖动 */
+  position: relative; /* 为绝对定位的按钮提供参考 */
+}
+
+/* 时间特效 */
+.time-wrapper {
+  font-family: var(--font-mono);
+  font-size: 2.2rem; 
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1.5px; /* 稍微紧凑一点，会让字体看起来更“厚” */
+  margin-bottom: 6px;
+
+  background: var(--time-gradient);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: flow-gradient 11s linear infinite;
+  display: inline-block;
+}
+@keyframes flow-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+
+.stats-grid { display: flex; flex-direction: column; gap: 2px; }
+.stat-item { display: flex; align-items: center; font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap; }
+.net-box { margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(0,0,0,0.05); }
+.net-line { display: flex; align-items: center; gap: 5px; line-height: 1.4; }
+.value { font-weight: 600; }
+
+/* --- 窗口控制栏 (新逻辑) --- */
+.window-controls {
+  position: absolute;
+  top: 8px; right: 8px;
+  display: flex; gap: 6px;
+  opacity: 0; /* 默认隐藏 */
+  transition: opacity 0.2s;
+  -webkit-app-region: no-drag; /* 按钮区域不可拖动 */
+  z-index: 10;
+}
+
+/* 只有当鼠标悬停在 main-info (右侧) 时才显示按钮 */
+.main-info:hover .window-controls {
+  opacity: 1;
+}
+
+.control-btn {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 12px; color: #555;
+  transition: 0.2s;
+  color: var(--text-primary); 
+  opacity: 0.8;
+}
+.control-btn:hover { background: rgba(255, 255, 255, 0.1); opacity: 1;transform: scale(1.1); }
+.control-btn.close-btn:hover { background: #ff5f56; color: white; }
+
+/* 修改或添加以下样式 */
+#balls-container {
+    position: fixed; /* 使用 fixed 定位，相对于窗口 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* 确保不影响鼠标点击到底下的按钮 */
+    z-index: 9999; /* 确保在最顶层，超过左侧头像和所有按钮 */
+    overflow: hidden;
+}
+
+.nailong-ball {
+    position: absolute;
+    width: 50px;  /* 可以稍微大一点 */
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    pointer-events: none;
+    /* 去掉之前的 transition，因为物理移动需要实时更新，不需要 CSS 过渡 */
+}
+
+/* 弹幕容器 */
+.danmaku-container {
+    position: absolute;
+    top: -20px; /* 在奶龙头顶上方 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 60px;
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 弹幕单条样式 */
+.danmaku-item {
+    position: absolute;
+    white-space: nowrap;
+    font-weight: 800;
+    font-size: 16px;
+    /* 核心适配：亮色文字 + 黑色外描边，这是防“融化”的神技 */
+    color: #ffffff;
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000,
+         0px  2px 4px rgba(0,0,0,0.5);
+    animation: danmakuFloat 2.5s ease-out forwards;
+}
+
+@keyframes danmakuFloat {
+    0% {
+        transform: translateY(10px) scale(0.8);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(0) scale(1.1);
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-30px) scale(1);
+        opacity: 0;
+    }
+}
+/* --- 悬浮球模式 (Mini Mode) --- */
+.window.mini-mode {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border-radius: 0 !important;
+}
+
+/* 2. 隐藏掉右侧面板及多余的弹幕和视频 */
+.window.mini-mode .main-info,
+.window.mini-mode .window-controls,
+.window.mini-mode .danmaku-container,
+.window.mini-mode video {
+    display: none !important;
+}
+.window.mini-mode .expand-btn { 
+    display: none !important; 
+}
+
+/* 3. 容器完全透明化填充 */
+.window.mini-mode .main-widget {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.window.mini-mode .side-avatar {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1 !important;
+    background: transparent !important;
+}
+
+/* 4. 奶龙悬浮球本体：呼吸发光 + 毛玻璃质感 + 随处可拖拽 */
+@keyframes breathGlow {
+    0%   { box-shadow: 0 0 10px rgba(7, 193, 96, 0.3); }
+    50%  { box-shadow: 0 0 25px rgba(7, 193, 96, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(7, 193, 96, 0.3); }
+}
+
+.window.mini-mode .logo-container {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    
+    /* 高级视觉设定 */
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(7, 193, 96, 0.5) !important;
+    animation: breathGlow 3s infinite ease-in-out !important;
+    overflow: hidden !important; 
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-radius 0.3s;
+    
+    /* 【神仙修复】：将本体设为可拖拽，彻底解决“要点边缘才能拖”的Bug */
+    -webkit-app-region: drag !important;
+    cursor: grab;
+}
+
+/* 按下时的微反馈 */
+.window.mini-mode .logo-container:active {
+    cursor: grabbing !important;
+    animation: none !important;
+    transform: scale(0.92) !important;
+    box-shadow: 0 0 15px rgba(7, 193, 96, 0.9) !important;
+}
+
+.window.mini-mode #avatar-static {
+    width: 75% !important;
+    height: 75% !important;
+    opacity: 1 !important;
+    position: static !important;
+}
+
+/* =========================================
+   === 【特效】贴边自动变半圆形胶囊结构 ===
+   ========================================= */
+
+/* 吸附左侧：变成往右看的平边半圆，鼠标移上去弹出 */
+.window.mini-mode.left .logo-container {
+    transform: translateX(-15px) !important;
+    border-radius: 0 25px 25px 0 !important;
+    border-left: none !important;
+}
+.window.mini-mode.left .logo-container:hover {
+    transform: translateX(0) !important; /* 悬浮时自动探头 */
+}
+
+/* 吸附右侧：变成往左看的平边半圆 */
+.window.mini-mode.right .logo-container {
+    transform: translateX(15px) !important;
+    border-radius: 25px 0 0 25px !important;
+    border-right: none !important;
+}
+.window.mini-mode.right .logo-container:hover {
+    transform: translateX(0) !important; /* 悬浮时自动探头 */
+}
+
+/* 展开按钮，默认透明，悬浮外层时显示 */
+.expand-btn {
+  position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--text-primary);
+  opacity: 0; transition: 0.2s; cursor: pointer;
+  background: linear-gradient(transparent, rgba(0,0,0,0.05));
+  z-index: 50;
+  -webkit-app-region: no-drag;
+  pointer-events: auto;
+}
+.expand-btn:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1); /* 鼠标放上去时加个浅色底色 */
+  border-radius: 4px;
+}
+
+/* 下半部分：聊天面板 */
+.chat-panel {
+  display: flex; flex-direction: column;
+  flex: 0; /* 默认收起时不占用空间 */
+  height: 0; 
+  opacity: 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border-color);
+  background: var(--side-bg);
+  /* 从下方滑入的感觉 */
+  transform: translateY(-10px);
+  transition: flex 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1;
+}
+.window.expanded .main-widget {
+  flex: 170; 
+}
+
+/* 2. 展开时，下方聊天区域占据剩余 330 的比例 (170 + 330 = 500) */
+.window.expanded .chat-panel {
+  flex: 330; 
+  height: auto; 
+  opacity: 1; 
+  transform: translateY(0);
+}
+.chat-output::-webkit-scrollbar {
+  width: 4px;               /* 纵向滚动条宽度：极细 */
+  height: 4px;              /* 横向滚动条高度 */
+}
+.chat-output::-webkit-scrollbar-track {
+  background: transparent;  /* 轨道透明 */
+}
+.chat-output::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05); /* 默认非常淡 */
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+/* 5. 深色模式下的滑块颜色适配 */
+[data-theme="dark"] .chat-output::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+.chat-output {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+.chat-output::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
+}
+/* 4. 鼠标悬浮在聊天区域时，滑块稍微明显一点 */
+.chat-output:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15); 
+}
+/* 聊天内容区 */
+.chat-output {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chat-msg {
+  padding: 6px 10px; border-radius: 8px; max-width: 85%;
+  word-wrap: break-word; line-height: 1.4;
+}
+.chat-msg.system { background: var(--bg-color); align-self: flex-start; border: 1px solid var(--border-color); }
+.chat-msg.user { background: var(--border-color); align-self: flex-end; color: var(--text-primary); }
+
+/* 输入框 */
+.chat-input {
+  height: 35px; border: none; outline: none;
+  background: var(--bg-color); color: var(--text-primary);
+  padding: 0 10px; font-size: 12px;
+  border-top: 1px solid var(--border-color);
+  -webkit-app-region: no-drag !important;
+}
+.chat-input::placeholder { color: var(--text-secondary); }
+.main-widget {
+  display: flex;
+  flex: 1; /* 默认独占整个小窗口的 100% 空间 */
+  width: 100%;
+  position: relative;
+  transition: flex 0.3s ease;
+  flex-shrink: 0;
+  z-index: 2;
+  background: var(--bg-color);
+}

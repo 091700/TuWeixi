@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>偏好设置</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --wechat-green: #07c160;
+      --wechat-green-light: rgba(7, 193, 96, 0.1);
+      --wechat-green-hover: #06ad56;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-primary);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-app-region: drag;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    input, button, select, .toggle, .nav-item, .close-btn, .slider, .shortcut-input {
+      -webkit-app-region: no-drag;
+    }
+
+    /* 左侧侧边栏 */
+    .sidebar {
+      width: 130px;
+      background: rgba(0,0,0,0.03);
+      border-right: 1px solid var(--border-color);
+      padding-top: 40px;
+      display: flex; 
+      flex-direction: column;
+    }
+    
+    .nav-item {
+      padding: 14px 20px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 13px;
+      transition: 0.2s;
+      position: relative;
+    }
+    .nav-item:hover { color: var(--wechat-green); }
+    .nav-item.active { 
+      color: var(--wechat-green); 
+      background: var(--bg-color);
+      font-weight: 600;
+    }
+    /* 激活态的小绿条 */
+    .nav-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 15%; height: 70%;
+      width: 4px;
+      background: var(--wechat-green);
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* 右侧内容区 */
+    .content {
+      flex: 1;
+      padding: 25px 35px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .header-row { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 25px; 
+    }
+    .page-title { font-size: 18px; font-weight: 600; }
+    
+    /* 关闭按钮优化：不再是圆圈，更像原生窗口 */
+    .close-btn {
+      position: absolute;
+      top: 0; right: 0;
+      width: 45px; height: 32px;
+      color: var(--text-secondary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 20px;
+      transition: 0.2s;
+    }
+    .close-btn:hover {
+      background: #fb7373;
+      color: white;
+    }
+
+    /* 卡片样式 */
+    .card {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      border-radius: 8px; 
+      padding: 20px; 
+      margin-bottom: 20px;
+      -webkit-app-region: no-drag; 
+    }
+    
+    [data-theme="dark"] .card {
+  background: rgba(255, 255, 255, 0.05); /* 深色模式下，卡片用极淡的白色叠加 */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* 边框也相应变淡 */
+  }
+    /* 适配深色模式的侧边栏导航 */
+    [data-theme="dark"] .nav-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  }
+
+    .control-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .control-item:last-child { margin-bottom: 0; }
+    
+    .label { font-size: 14px; color: var(--text-primary); }
+    .desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+    /* 控件美化 */
+    input[type=range] { 
+      width: 120px; 
+      accent-color: var(--wechat-green); 
+      height: 4px;
+    }
+
+    select { 
+      padding: 5px 10px; 
+      border-radius: 4px; 
+      border: 1px solid var(--border-color); 
+      background: var(--bg-color); 
+      color: var(--text-primary);
+      font-size: 13px;
+    }
+
+    /* 开关切换 */
+    .toggle { position: relative; width: 40px; height: 20px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .slider { 
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+      background-color: #ccc; transition: .3s; border-radius: 20px; 
+    }
+    .slider:before { 
+      position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; 
+      background-color: white; transition: .3s; border-radius: 50%; 
+    }
+    input:checked + .slider { background-color: var(--wechat-green); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    .tabs { display: none; }
+    .tabs.active { display: block; animation: fadeIn 0.2s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* 修正后的操作按钮样式 */
+    .action-btn {
+      background: var(--wechat-green);
+      color: white;
+      border: none;
+      padding: 5px 12px; /* 稍微缩减一点，保持和下拉框高度一致 */
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      height: 28px;      /* 固定高度 */
+      line-height: 1;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+    .action-btn:hover { background: var(--wechat-green-hover); }
+    .action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* 新增：专门给清理项的下拉框定义样式 */
+    .control-item select {
+      background: var(--bg-color);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0 8px;
+      font-size: 12px;
+      height: 28px;      /* 关键：与按钮高度完全一致 */
+      outline: none;
+      cursor: pointer;
+    }
+    .shortcut-input { 
+      width: 110px; padding: 6px; 
+      border: 1px solid var(--wechat-green); 
+      border-radius: 4px; text-align: center; 
+      color: var(--wechat-green); font-weight: 600; 
+      background: var(--wechat-green-light); 
+      outline: none; font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div style="font-size:32px; margin-bottom: 30px; text-align: center;">⚙️</div>
+    <div class="nav-item active" onclick="switchTab(event, 'general')">通用设置</div>
+    <div class="nav-item" onclick="switchTab(event, 'appearance')">外观显示</div>
+    <div class="nav-item" onclick="switchTab(event, 'shortcuts')">快捷键</div>
+  </div>
+
+  <div class="content">
+    <div class="close-btn" id="btn-close">×</div>
+    
+    <div class="header-row">
+      <span class="page-title" id="page-title">通用设置</span>
+    </div>
+
+   <div id="tab-general" class="tabs active">
+      <div class="card">
+        <div class="control-item">
+          <div>
+            <div class="label">开机自启动</div>
+            <div class="desc">系统登录时自动运行奶龙助手</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="inp-autostart">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="control-item">
+          <div>
+            <div class="label">窗口置顶</div>
+            <div class="desc">保持助手窗口始终在最前端</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="inp-top">
+            <span class="slider"></span>
+          </label>
+        </div> <div class="control-item">
+          <div>
+            <div class="label">清理聊天记录</div>
+            <div class="desc">删除本地存储的对话数据</div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <select id="sel-clear-range" class="styled-select">
+              <option value="all">全部记录</option>
+              <option value="1year">一年前</option>
+              <option value="30days">三十天前</option>
+              <option value="7days">七天前</option>
+              <option value="1day">一天前</option>
+              <option value="1hour">一小时前</option>
+            </select>
+            <button id="btn-clear-chat" class="action-btn">清理</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-appearance" class="tabs">
+      <div class="card">
+        <div class="control-item">
+          <div class="label">窗口大小</div>
+          <select id="sel-zoom">
+            <option value="0.95">小号 (95%)</option>
+            <option value="1.0">默认 (100%)</option>
+            <option value="1.25">中等 (125%)</option>
+            <option value="1.5">超大 (150%)</option>
+          </select>
+        </div>
+        
+        <div class="control-item">
+          <div class="label">界面主题</div>
+          <select id="sel-theme">
+            <option value="light">☀️ 浅色模式</option>
+            <option value="dark">🌙 深色模式</option>
+            <option value="glass">💧 毛玻璃</option>
+            <option value="sakura">🌸 樱花粉</option>
+            <option value="matcha">🍵 抹茶绿</option>
+            <option value="ocean">🌌 星空蓝</option>
+            <option value="cyber">⚡ 赛博朋克</option>
+          </select>
+        </div>
+
+        <div class="control-item">
+          <div>
+            <div class="label">不透明度</div>
+            <div class="desc" id="opacity-val">80%</div>
+          </div>
+          <input type="range" id="inp-opacity" min="20" max="100">
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-shortcuts" class="tabs">
+      <div class="card">
+        <div class="control-item">
+          <div>
+            <div class="label">显示/隐藏助手</div>
+            <div class="desc">点击输入框并按下组合键</div>
+          </div>
+          <input type="text" class="shortcut-input" id="inp-shortcut" readonly value="Ctrl+Alt+Q">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+  <script>
+    function switchTab(event, tabName) {
+      // 切换导航选中状态
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      
+      // 切换内容显隐
+      document.querySelectorAll('.tabs').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+      
+      // 更新标题
+      const titles = { 'general': '通用设置', 'appearance': '外观显示', 'shortcuts': '快捷键管理' };
+      document.getElementById('page-title').innerText = titles[tabName];
+    }
+  </script>
+</body>
+</html>

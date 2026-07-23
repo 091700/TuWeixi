@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>涂维兮御用奶龙助手</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="window" id="window">
+    <div class="main-widget" id="main-widget">
+      <div class="side-avatar" id="avatar-container">
+        <div class="danmaku-container" id="danmaku-slot"></div> 
+        <div class="logo-container">
+          <img src="assets/nailong.png" alt="吉祥物" class="avatar-item active" id="avatar-static">
+          <video src="assets/nailonghuishou.webm" class="avatar-item" id="video-wave" loop playsinline></video>
+          <video src="assets/nailongdaxiao.webm" class="avatar-item" id="video-laugh" playsinline></video>
+        </div>
+      </div>
+
+  <div class="main-info">
+      <div class="window-controls">
+        <div class="control-btn" id="btn-settings" title="设置">⚙️</div>
+        <div class="control-btn" id="btn-min" title="最小化">─</div>
+        <div class="control-btn close-btn" id="btn-close" title="退出">×</div>
+      </div> <div class="time-wrapper">
+        <span id="time">00:00:00</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span id="cpu" class="value">CPU: 0%</span>
+        </div>
+        <div class="stat-item">
+          <span id="mem" class="value">内存: 0%</span>
+        </div>
+        <div class="stat-item net-box">
+          <div class="net-line">
+            <span class="icon">⬇️</span>
+            <span id="net-down">0 KB/s</span>
+          </div>
+          <div class="net-line">
+            <span class="icon">⬆️</span>
+            <span id="net-up">0 KB/s</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="expand-btn" id="btn-expand" title="召唤/缩回聊天面板">▼</div>
+    </div>
+
+    <div class="chat-panel" id="chat-panel">
+      <div class="chat-output" id="chat-output">
+        <div class="chat-msg system">嘿嘿，我是奶龙，找我有什么事呀？</div>
+      </div>
+      <input type="text" class="chat-input" id="chat-input" placeholder="按 Enter 发送给奶龙...">
+    </div>
+  </div>
+  <script src="renderer.js"></script>
+      <div id="balls-container"></div>
+</body>

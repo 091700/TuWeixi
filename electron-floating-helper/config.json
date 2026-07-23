@@ -1,0 +1,11 @@
+{
+  "width": 300,
+  "height": 170,
+  "opacity": 0.8,
+  "theme": "light",
+  "autoStart": false,
+  "shortcuts": [
+    { "key": "Ctrl+Alt+0", "action": "toggle" },
+    { "key": "Ctrl+Alt+1", "action": "open:https://www.wechat.com" }
+  ]
+}

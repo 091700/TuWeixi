@@ -1,0 +1,53 @@
+{
+  "name": "electron-floating-helper",
+  "version": "1.0.0",
+  "main": "main.js",
+  "description": "nailong",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && electron-builder"
+  },
+  "keywords": [],
+  "author": "twx",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "electron-store": "^8.2.0",
+    "systeminformation": "^5.30.7"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^26.7.0"
+  },
+  "build": {
+    "compression": "maximum",
+    "extraResources": [
+      {
+        "from": "voice_engine/",
+        "to": "voice_engine/",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "assets/voice_models/",
+        "to": "assets/voice_models/"
+      }
+    ],
+    "appId": "com.tuweixi.nailong",
+    "productName": "nailong helper",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/nailong.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "${productName} Setup ${version}.${ext}"
+    }
+  }
+}

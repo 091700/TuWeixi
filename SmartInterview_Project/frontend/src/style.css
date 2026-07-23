@@ -1,0 +1,30 @@
+/* src/style.css */
+body, html, #app {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  /* 极致治愈系暖色背景：以 #FFEBD8 为核心的柔和渐变 */
+  background: linear-gradient(135deg, #FFEBD8 0%, #FFF3E0 50%, #FFDFD3 100%);
+  color: #5c4b43; /* 配合暖色底的深咖色字体，比纯黑更柔和 */
+}
+
+/* 真正的通透毛玻璃质感，绝不发灰发闷 */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.35); /* 极高透明度的纯白底 */
+  backdrop-filter: blur(16px) saturate(120%); /* 强模糊 + 色彩饱和度轻微提亮 */
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.6); /* 细腻的半透明高光边缘 */
+  box-shadow: 0 8px 32px 0 rgba(210, 180, 140, 0.15); /* 暖色调的极轻微阴影 */
+  border-radius: 24px;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 180, 160, 0.5);
+  border-radius: 4px;
+}

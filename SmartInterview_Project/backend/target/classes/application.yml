@@ -1,0 +1,25 @@
+logging:
+  charset:
+    console: GBK
+server:
+  port: 8081
+  standard:
+    max-binary-message-buffer-size: 1048576
+    max-text-message-buffer-size: 1048576
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/smart_interview?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 091700xixi
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名转换
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印 SQL 方便排错
+ai:
+  python-engine:
+    base-url: http://127.0.0.1:8000/api/analyze
+  deepseek:
+    api-key: "sk-69e4781eef484cff8e35f2760f9a6a0b"
+    url: "https://api.deepseek.com/v1/chat/completions"

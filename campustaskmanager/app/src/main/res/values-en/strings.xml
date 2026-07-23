@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Task Manager</string>
+
+    <!-- MainActivity Buttons -->
+    <string name="btn_all_tasks">All Tasks</string>
+    <string name="btn_pending">Pending</string>
+    <string name="btn_completed">Completed</string>
+    <string name="btn_add_task">Add New Task</string>
+
+    <!-- Task List Item -->
+    <string name="deadline_prefix">Deadline: </string>
+    <string name="task_unnamed">Unnamed Task</string>
+    <string name="task_no_type">No Type</string>
+    <string name="priority_default">Medium</string>
+
+    <string name="photo_title">Proof Photo</string>
+    <string name="task_complete">Completed</string>
+    <string name="task_pending">Pending</string>
+    <!-- TaskEditActivity -->
+    <string name="hint_task_name">Enter Task Name</string>
+    <string name="btn_select_date">Select Deadline Date</string>
+    <string name="btn_select_time">Select Deadline Time</string>
+    <string name="hint_location">Enter Task Location (or tap to associate current location)</string>
+    <string name="btn_associate_location">Associate Current Location</string>
+    <string name="btn_take_photo">Take Proof Photo</string>
+    <string name="photo_count">Proof Photos: %d</string>
+    <string name="rb_high">High Priority</string>
+    <string name="rb_medium">Medium Priority</string>
+    <string name="rb_low">Low Priority</string>
+    <string name="btn_save_task">Save Task</string>
+
+    <!-- Toast Messages -->
+    <string name="toast_location_success">Location successful, associated current place</string>
+    <string name="toast_task_saved">Task saved successfully!</string>
+    <string name="toast_photo_success">Photo taken successfully</string>
+    <string name="toast_no_photo">No proof photos</string>
+
+    <!-- TaskDetailActivity -->
+    <string name="task_detail_info">Task Type: %s\nPriority: %s\nDeadline: %s %s\nLocation: %s\nStatus: %s</string>
+    <string name="btn_navigate">Navigate to Task Location</string>
+    <string name="task_status_completed">Completed</string>
+    <string name="task_status_pending">Pending</string>
+    <string name="task_location_none">None</string>
+    <string name="deadline_none">None</string>
+
+    <!-- MapNavigationActivity -->
+    <string name="destination_prefix">Destination: </string>
+    <string name="location_unknown">Unknown Location</string>
+    <string name="navigation_invalid">Invalid destination coordinates, cannot navigate</string>
+    <string name="route_failed">Route planning failed, error code: %d</string>
+    <string name="route_info">Destination: %s | Estimated Walk: %d mins | Distance: %d m</string>
+
+    <!-- Dialog -->
+    <string name="dialog_task_operation">Task Operation</string>
+    <string name="dialog_mark_complete">Mark Complete/Pending</string>
+    <string name="dialog_delete_task">Delete Task</string>
+</resources>

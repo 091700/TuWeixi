@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="task_types">
+        <item>任务</item>
+        <item>活动</item>
+        <item>工作</item>
+        <item>个人事务</item>
+        <item>其他</item>
+    </string-array>
+</resources>

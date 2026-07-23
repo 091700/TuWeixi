@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">任务管理</string>
+    <string name="btn_all_tasks">所有任务</string>
+    <string name="btn_pending">未完成</string>
+    <string name="btn_completed">已完成</string>
+    <string name="btn_add_task">添加新任务</string>
+
+    <string name="photo_title">凭证照片</string>
+    <string name="task_complete">已完成</string>
+    <string name="task_pending">未完成</string>
+
+    <!-- 任务列表项 -->
+    <string name="deadline_prefix">截止时间：</string>
+    <string name="task_unnamed">未命名任务</string>
+    <string name="task_no_type">无类型</string>
+    <string name="priority_default">中</string>
+
+    <!-- TaskEditActivity -->
+    <string name="hint_task_name">请输入任务名称</string>
+    <string name="btn_select_date">选择截止日期</string>
+    <string name="btn_select_time">选择截止时间</string>
+    <string name="hint_location">请输入任务地点（或点击关联当前位置）</string>
+    <string name="btn_associate_location">关联当前位置</string>
+    <string name="btn_take_photo">拍摄凭证照片</string>
+    <string name="photo_count">已拍凭证照片：%d 张</string>
+    <string name="rb_high">高优先级</string>
+    <string name="rb_medium">中优先级</string>
+    <string name="rb_low">低优先级</string>
+    <string name="btn_save_task">保存任务</string>
+
+    <!-- Toast 提示 -->
+    <string name="toast_location_success">定位成功，已关联当前地点</string>
+    <string name="toast_task_saved">任务保存成功！</string>
+    <string name="toast_photo_success">照片拍摄成功</string>
+    <string name="toast_no_photo">暂无凭证照片</string>
+
+    <!-- TaskDetailActivity -->
+    <string name="task_detail_info" formatted="false">任务类型：%s\n优先级：%s\n截止时间：%s %s\n任务地点：%s\n完成状态：%s</string>
+    <string name="btn_navigate">导航到任务地点</string>
+    <string name="task_status_completed">已完成</string>
+    <string name="task_status_pending">未完成</string>
+    <string name="task_location_none">无</string>
+    <string name="deadline_none">无</string>
+
+    <!-- MapNavigationActivity -->
+    <string name="destination_prefix">目的地：</string>
+    <string name="location_unknown">未知地点</string>
+    <string name="navigation_invalid">目的地坐标无效，无法导航</string>
+    <string name="route_failed">路线规划失败，错误码：%d</string>
+    <string name="route_info" formatted="false">目的地：%s | 预计步行：%d分钟 | 距离：%d米</string>
+
+    <!-- 对话框 -->
+    <string name="dialog_task_operation">操作任务</string>
+    <string name="dialog_mark_complete">标记完成/未完成</string>
+    <string name="dialog_delete_task">删除任务</string>
+</resources>

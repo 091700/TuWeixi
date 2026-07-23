@@ -1,0 +1,62 @@
+/* src/assets/theme.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* 极致治愈的暖清新色彩张量 */
+  --bg-base: #FFEBD8;
+  --primary-color: #5D4037; /* 温润的深咖色，替代生硬的纯黑 */
+  --primary-hover: #795548;
+  --accent-color: #FF8FAB; /* 柔和的珊瑚粉 */
+  --success-color: #81B29A; /* 莫兰迪绿 */
+  --warning-color: #F2CC8F; /* 暖阳黄 */
+  --danger-color: #E07A5F;  /* 柔和的陶土红，绝不刺眼 */
+  
+  /* 核心参数：Shadcn级别的锐利圆角与高级毛玻璃 */
+  --sharp-radius: 16px;
+  --card-radius: 10px;
+  /* 提升透明度，让暖色背景充分透射 */
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  /* 极细的1px纯白高光边缘，模拟真实玻璃切割面 */
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 10px 40px -10px rgba(93, 64, 55, 0.08);
+}
+
+body {
+  margin: 0; padding: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-base);
+  color: #4A3B32;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 动态流体背景 - 温暖的治愈系弥散光 */
+.aurora-bg { 
+  position: fixed; inset: 0; z-index: -1; 
+  background-color: var(--bg-base);
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(255, 209, 179, 0.7) 0px, transparent 50%),
+    radial-gradient(at 80% 10%, rgba(255, 198, 198, 0.6) 0px, transparent 50%),
+    radial-gradient(at 10% 80%, rgba(255, 228, 225, 0.8) 0px, transparent 50%);
+  overflow: hidden; 
+}
+
+/* 覆盖 Element Plus 臃肿样式，强制契合暖调设计系统 */
+.el-button { 
+  border-radius: var(--card-radius) !important; 
+  font-weight: 600; 
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+}
+.el-input__wrapper, .el-select__wrapper {
+  background: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02), inset 0 0 0 1px rgba(255,255,255,0.8) !important;
+  border-radius: var(--card-radius) !important;
+  backdrop-filter: blur(10px);
+}
+.el-select__wrapper.is-focused { 
+  box-shadow: 0 4px 12px rgba(255, 143, 171, 0.15), inset 0 0 0 2px var(--accent-color) !important; 
+}
+
+/* 优雅的过度动画 */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(15px) scale(0.98); }

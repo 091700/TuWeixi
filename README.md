@@ -35,7 +35,6 @@
 | **🎮 niu-qu-game** | `Godot 4` `GDScript` | 2D 游戏工具框架。8 个 GDScript 核心模块——碰撞区域工厂（428 行，8 种碰撞体 + 6 关卡传送系统，6 个 Boss 顺序解锁）、可破坏物体系统 + 对象池 + 粒子管理器 + 相机抖动 + 伪动画补间。 |
 | **🛒 e-commerce** | `PHP 8` `MySQL` `PDO` `Session` | PHP 电商系统。15 个 PHP 文件覆盖用户注册/登录、产品管理、购物车、结算、后台 CRUD。 |
 | **📋 student-manage-system** | `Java Spring Boot` `Apache POI` `Thymeleaf` | 学生管理系统。14 个 Java 源文件——5 个 Controller/Service + 4 个 DAO/Entity + ExcelUtil（Apache POI 批量导入导出）+ LoginInterceptor 登录拦截。 |
-| 🪀 **NetAcceleratorWin** | `C#` `.NET Framework` `WinForms` | WinForms 桌面应用（娱乐性质），Fody/Costura 单文件打包发布。 |
 
 ---
 

@@ -1,0 +1,16 @@
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\bin\Debug\NetAcceleratorWin.exe
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\bin\Debug\System.Configuration.ConfigurationManager.xml
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.AssemblyReference.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\Interop.WMPLib.dll
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.ResolveComReference.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.Properties.Resources.resources
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.VideoForm.resources
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.GenerateResource.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.CoreCompileInputs.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.Fody.CopyLocal.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.csproj.Fody.RuntimeCopyLocal.cache
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAccel.04A0F0B8.Up2Date
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.exe
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.pdb
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\bin\Debug\NetAcceleratorWin.pdb
+C:\Users\10200\Desktop\NetAcceleratorWin\NetAcceleratorWin\obj\Debug\NetAcceleratorWin.SplashForm.resources

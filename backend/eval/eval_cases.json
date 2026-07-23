@@ -1,0 +1,26 @@
+{
+  "name": "eval_basic_queries",
+  "version": "2.0",
+  "cases": [
+    {"id":"E001","question":"查看 test_db 数据库有哪些表","expected_tools":["get_table_metadata"],"expected_keywords":["表"],"difficulty":"easy"},
+    {"id":"E002","question":"帮我查一下 users 表有多少条数据","expected_tools":["get_table_metadata","execute_readonly_sql"],"expected_keywords":["users","COUNT"],"difficulty":"easy"},
+    {"id":"E003","question":"找出数据量最大的 3 张表","expected_tools":["get_table_metadata","execute_readonly_sql"],"expected_keywords":["DESC","LIMIT 3","ORDER BY"],"difficulty":"medium"},
+    {"id":"E004","question":"帮我分析一下 orders 表的查询性能","expected_tools":["explain_sql","get_table_metadata"],"expected_keywords":["EXPLAIN","扫描"],"difficulty":"medium"},
+    {"id":"E005","question":"users 表有哪些列？数据类型是什么？","expected_tools":["get_table_metadata"],"expected_keywords":["VARCHAR","INT","列"],"difficulty":"easy"},
+    {"id":"E006","question":"帮我巡检表结构，看看有什么问题","expected_tools":["inspect_table_schema"],"expected_keywords":["主键","索引"],"difficulty":"medium"},
+    {"id":"E007","question":"查看不存在的表 xyz_abc","expected_tools":["get_table_metadata"],"expected_keywords":["不存在"],"difficulty":"easy"},
+    {"id":"E008","question":"查询 products 表中价格大于 100 的商品，按价格降序排列","expected_tools":["get_table_metadata","execute_readonly_sql"],"expected_keywords":["WHERE","ORDER BY","DESC"],"difficulty":"medium"},
+    {"id":"E009","question":"帮我生成 users 表的测试数据","expected_tools":["generate_test_data"],"expected_keywords":["INSERT"],"difficulty":"medium"},
+    {"id":"E010","question":"找出数据量最大的表，然后分析它的索引情况","expected_tools":["get_table_metadata","execute_readonly_sql","explain_sql","inspect_table_schema"],"expected_keywords":["索引","扫描"],"difficulty":"hard"},
+    {"id":"E011","question":"统计每个用户的订单总数，按订单数降序排列","expected_tools":["get_table_metadata","execute_readonly_sql"],"expected_keywords":["GROUP BY","COUNT","ORDER BY","DESC"],"difficulty":"medium"},
+    {"id":"E012","question":"帮我优化这条慢查询：SELECT * FROM orders WHERE status = 'pending'","expected_tools":["explain_sql","get_table_metadata"],"expected_keywords":["索引","全表扫描","status"],"difficulty":"medium"},
+    {"id":"E013","question":"查看最近创建的 5 张表","expected_tools":["get_table_metadata"],"expected_keywords":["CREATE_TIME","ORDER BY"],"difficulty":"easy"},
+    {"id":"E014","question":"这个库的字符集是什么？","expected_tools":["execute_readonly_sql"],"expected_keywords":["utf8","charset","character_set"],"difficulty":"medium"},
+    {"id":"E015","question":"格式化这条SQL：SELECT u.name,o.amount FROM users u LEFT JOIN orders o ON u.id=o.user_id WHERE o.amount>100 ORDER BY o.created_at","expected_tools":["format_sql"],"expected_keywords":["SELECT","FROM","LEFT JOIN","ORDER BY"],"difficulty":"easy"},
+    {"id":"E016","question":"orders 表有没有缺失索引？","expected_tools":["explain_sql","get_table_metadata","inspect_table_schema"],"expected_keywords":["索引","扫描","EXPLAIN"],"difficulty":"hard"},
+    {"id":"E017","question":"帮我连接一个不存在的表并查数据","expected_tools":["get_table_metadata"],"expected_keywords":["不存在","错误"],"difficulty":"medium"},
+    {"id":"E018","question":"查找总消费金额最高的前5位用户","expected_tools":["get_table_metadata","execute_readonly_sql"],"expected_keywords":["SUM","GROUP BY","ORDER BY","LIMIT 5","JOIN"],"difficulty":"hard"},
+    {"id":"E019","question":"检查 products 表的主键和索引是否合理","expected_tools":["inspect_table_schema","get_table_metadata"],"expected_keywords":["主键","索引","INT","BIGINT"],"difficulty":"medium"},
+    {"id":"E020","question":"orders 表有哪些外键关联","expected_tools":["get_table_metadata"],"expected_keywords":["外键","REFERENCES","FOREIGN KEY"],"difficulty":"easy"}
+  ]
+}

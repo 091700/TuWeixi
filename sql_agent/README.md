@@ -3,6 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Vue3](https://img.shields.io/badge/Vue_3-Element_Plus-4FC08D?style=flat&logo=vuedotjs)](https://vuejs.org)
+[![React](https://img.shields.io/badge/React_18-系统仪表盘-61DAFB?style=flat&logo=react)](https://react.dev)
 [![DeepSeek](https://img.shields.io/badge/LLM-DeepSeek_Chat_/_R1-4D6BFE?style=flat)](https://deepseek.com)
 [![ChromaDB](https://img.shields.io/badge/RAG-ChromaDB_+_Sentence--Transformers-121212?style=flat)](https://trychroma.com)
 [![MySQL](https://img.shields.io/badge/DB-MySQL_8.0-4479A1?style=flat&logo=mysql)](https://mysql.com)
@@ -14,7 +15,7 @@
 ## 技术架构
 
 ```
-前端: Vue 3 (Composition API + Element Plus)
+前端: Vue 3 (Composition API + Element Plus) + React 18 (系统监控仪表盘)
 后端: FastAPI (SSE 流式 + 30 个 REST 端点)
 Agent 层: Orchestrator → TokenBudget → AdaptiveLoop → Tools
 安全: 三层 SQL 沙箱 + RBAC + JWT + 审计日志 + 连接池
@@ -105,6 +106,8 @@ DeepSeek R1 的 `reasoning_content` 思维链通过 SSE `type:reasoning` 事件�
 | 工具调用卡片 | `screenshots/tools.png` |
 | 管理后台 | `screenshots/admin.png` |
 | 表巡检 | `screenshots/inspect.png` |
+| **React 仪表盘** | `screenshots/react.png` |
+| 设置页 · 监控入口 | `screenshots/settings.png` |
 
 ---
 
@@ -135,9 +138,11 @@ backend/
   requirements.txt              依赖
 frontend/
   src/pages/                    Vue 3 页面（Login / Chat / Settings 等）
+  src/react-dashboard/          React 18 系统监控仪表盘（统计卡片/折线图/环形仪表/查询表）
   src/store/auth.js             认证状态管理
   src/config.js                 配置
-  index.html / vite.config.js   构建配置
+  index.html / dashboard.html   多入口构建（Vue + React 共存）
+  vite.config.js                构建配置（vue + react 插件）
 ```
 
 ---

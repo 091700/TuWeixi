@@ -15,7 +15,7 @@
 
 | 项目 | 技术栈 | 简介 |
 |------|--------|------|
-| **🗄️ sql_agent** | `Python` `FastAPI` `Vue 3` `DeepSeek R1` `ChromaDB` | 从零手写的 LLM Agent 全栈项目。Agent Loop（五维终止 + LLM 自评 + Self-Healing）、Multi-Agent Orchestrator（DAG 任务图 → Kahn 拓扑排序 → asyncio.gather 并行）、PER 优先经验回放（TD-error + heapq 采样 + System Prompt 注入）、CoT 思维链可视化。三层 SQL 沙箱 + RBAC + Guardrails + 高危审批。1460 行纯自研代码，零框架黑盒。 |
+| **🗄️ sql_agent** | `Python` `FastAPI` `Vue 3` `DeepSeek R1` `ChromaDB` | 从零开始的 LLM Agent 全栈项目。Agent Loop（五维终止 + LLM 自评 + Self-Healing）、Multi-Agent Orchestrator（DAG 任务图 → Kahn 拓扑排序 → asyncio.gather 并行）、PER 优先经验回放（TD-error + heapq 采样 + System Prompt 注入）、CoT 思维链可视化。三层 SQL 沙箱 + RBAC + Guardrails + 高危审批。1460 行纯自研代码，零框架黑盒。 |
 | **🎙️ SmartInterview_Project** | `Java Spring Boot` `Python` `Whisper GPU` `Vue 3` `ChromaDB` | AI 模拟面试平台。WebSocket 实时交互（353 行 InterviewWebSocketServer）、Faster-Whisper GPU ASR + librosa 声学三指标评分（紧张度/自信度/清晰度）、RAG 知识库（ChromaDB + BAAI/bge-small-zh-v1.5）、DeepSeek 内容评分 + 追问生成。 |
 | **🧊 SmartPantry** | `Java Spring Boot` `Python` `PyTorch` `Qwen LLM` `Vue 3` | 智能冰箱管理系统。PyTorch 全连接网络预测食材保鲜期、5 维风味向量余弦相似度计算黑暗料理评分、Qwen 2.5-1.5B 零样本食材特征提取（553 行 app.py）、含 19 种硬编码风味特征的基础食材库。 |
 | **📚 intelligent-book-platform** | `Java Spring Boot` `Elasticsearch 8` `YOLOv5` `Thymeleaf` | 智能图书交易平台。Elasticsearch 全文搜索（多字段模糊匹配 + `_score` 排序）、YOLOv5 以图搜书（Python ONNX 导出 + Java 子进程调用）、Tesseract OCR 图书封面文字识别、Spring Security + BCrypt。 |

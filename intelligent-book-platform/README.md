@@ -8,6 +8,55 @@
 
 基于 Spring Boot 3 的智能图书交易平台。集成 Elasticsearch 全文搜索、YOLOv5 以图搜书视觉搜索、Tesseract OCR 图片文字识别、Spring Security 安全认证、JPA 数据持久化。30 个 Java 源码文件，覆盖前端模板、REST API、搜索引擎、计算机视觉、安全配置等完整 Web 开发管线。
 
+
+
+---
+
+## 📸 真实运行截图（大小适配 · 4+3 错落排版）
+
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <b>📖 首页 · 图书瀑布流</b><br>
+      <img src="screenshots/01-home.png" width="220" alt="首页"><br>
+      1440×2270 全页 · Thymeleaf 模板
+    </td>
+    <td align="center" width="25%">
+      <b>🔐 登录页</b><br>
+      <img src="screenshots/02-login.png" width="360" alt="登录"><br>
+      Spring Security 表单登录
+    </td>
+    <td align="center" width="25%">
+      <b>📝 注册页</b><br>
+      <img src="screenshots/03-register.png" width="360" alt="注册"><br>
+      BCrypt 密码加密
+    </td>
+    <td align="center" width="25%">
+      <b>📕 图书详情（哈利波特）</b><br>
+      <img src="screenshots/04-book-detail.png" width="360" alt="图书详情"><br>
+      Elasticsearch 单文档查询
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <b>🔍 搜索结果（关键词 java）</b><br>
+      <img src="screenshots/05-search-results.png" width="340" alt="搜索结果"><br>
+      ES 全文搜索 + 模糊匹配 + 分页
+    </td>
+    <td align="center" width="33%">
+      <b>🖼️ 以图搜书（YOLOv5 视觉搜索）</b><br>
+      <img src="screenshots/06-visual-search.png" width="380" alt="以图搜书"><br>
+      上传图片 → YOLO 检测物体 → ES 匹配图书
+    </td>
+    <td align="center" width="33%">
+      <b>➕ 发布图书</b><br>
+      <img src="screenshots/07-book-form.png" width="380" alt="发布图书"><br>
+      卖家发布 + 封面上传
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## 系统架构
@@ -143,7 +192,7 @@ intelligent-book-platform/
 │       └── VisualSearchRequest.java          视觉搜索请求
 ├── src/main/resources/application.properties  配置
 ├── export_yolo_model.py                       YOLOv5 模型导出 (Python)
-└── uploads/                                   图片上传目录 (9 张测试图)
+└── uploads/                                   图片上传目录 (美术资源 · 非项目截图)
 ```
 
 ---
@@ -166,6 +215,8 @@ python export_yolo_model.py    # 生成 onnx 模型
 ```
 
 **环境要求**：MySQL 8.0、Elasticsearch 8.x（默认 localhost:9200）、Java 17、可选 YOLOv5 + Python 3.11
+
+> ℹ️ ES 不可用时，`SearchService` 内部 `try/catch` 兜底回退到 MySQL `LIKE` 搜索，应用仍可启动运行。YOLO 模型加载失败同理，视觉搜索功能禁用但不影响主流程。
 
 ---
 

@@ -11,6 +11,33 @@
 
 ---
 
+## 📸 完整运行截图
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <b>① 登录注册</b><br>
+      <img src="screenshots/01-login.png" width="520" alt="登录注册">
+    </td>
+    <td align="center" width="50%">
+      <b>② 专业与难度选择</b><br>
+      <img src="screenshots/02-major.png" width="520" alt="专业选择">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>③ 管理员仪表盘</b><br>
+      <img src="screenshots/03-admin-dashboard.png" width="520" alt="管理员仪表盘">
+    </td>
+    <td align="center">
+      <b>④ AI 面试主界面</b><br>
+      <img src="screenshots/04-interview.png" width="520" alt="面试主界面">
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 系统架构
 
 ```

@@ -1,11 +1,4 @@
 {
-  "width": 300,
-  "height": 170,
-  "opacity": 0.8,
-  "theme": "light",
-  "autoStart": false,
-  "shortcuts": [
-    { "key": "Ctrl+Alt+0", "action": "toggle" },
-    { "key": "Ctrl+Alt+1", "action": "open:https://www.wechat.com" }
-  ]
+  "_comment": "项目全局配置（不含 API Key）。DeepSeek Key 通过环境变量 DEEPSEEK_API_KEY 注入",
+  "apiKey": ""
 }

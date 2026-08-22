@@ -28,8 +28,8 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
     
-    @Autowired
-    private BookSearchRepository bookSearchRepository;
+    @Autowired(required = false)
+    private BookSearchRepository bookSearchRepository;   // ES 可选，未启用时为 null
     
     @Value("${upload.path}")
     private String uploadDir;
@@ -53,25 +53,27 @@ public class BookService {
         if (book.getPurchaseCount() == null) book.setPurchaseCount(0);
 
         Book savedBook = bookRepository.save(book);
-        try {
-            bookSearchRepository.save(savedBook);
-            System.out.println("ES 同步成功：" + savedBook.getTitle() + "（ID：" + savedBook.getId() + "）");
-        } catch (Exception e) {
-            System.err.println("ES 同步失败：" + e.getMessage());
-            throw new RuntimeException("图书保存成功，但 ES 同步失败", e);
+        // ES 同步（可选，关闭时跳过）
+        if (bookSearchRepository != null) {
+            try {
+                bookSearchRepository.save(savedBook);
+                System.out.println("ES 同步成功：" + savedBook.getTitle() + "（ID：" + savedBook.getId() + "）");
+            } catch (Exception e) {
+                System.err.println("ES 同步失败（不影响保存）：" + e.getMessage());
+            }
         }
         return savedBook;
     }
     public Book updateBook(Book book) {
         Book updatedBook = bookRepository.save(book);
-        try {
-            bookSearchRepository.save(updatedBook);
-            System.out.println("图书数据已在 Elasticsearch 更新: " + updatedBook.getTitle());
-        } catch (Exception e) {
-            System.err.println("Elasticsearch 更新失败: " + e.getMessage());
-            throw new RuntimeException("图书更新成功，但搜索索引同步失败", e);
+        if (bookSearchRepository != null) {
+            try {
+                bookSearchRepository.save(updatedBook);
+                System.out.println("图书数据已在 Elasticsearch 更新: " + updatedBook.getTitle());
+            } catch (Exception e) {
+                System.err.println("Elasticsearch 更新失败（不影响更新）: " + e.getMessage());
+            }
         }
-        
         return updatedBook;
     }
     
@@ -81,11 +83,13 @@ public class BookService {
 
         bookRepository.deleteById(id);
         
-        try {
-            bookSearchRepository.deleteById(id);
-            System.out.println("图书数据已从 Elasticsearch 删除: " + book.getTitle());
-        } catch (Exception e) {
-            System.err.println("从 Elasticsearch 删除失败: " + e.getMessage());
+        if (bookSearchRepository != null) {
+            try {
+                bookSearchRepository.deleteById(id);
+                System.out.println("图书数据已从 Elasticsearch 删除: " + book.getTitle());
+            } catch (Exception e) {
+                System.err.println("从 Elasticsearch 删除失败（不影响删除）: " + e.getMessage());
+            }
         }
     }
 
@@ -96,16 +100,21 @@ public class BookService {
         book.setViewCount(book.getViewCount() + 1);
         Book updatedBook = bookRepository.save(book);
         
-        try {
-            bookSearchRepository.save(updatedBook);
-        } catch (Exception e) {
-            System.err.println("同步浏览量到 Elasticsearch 失败: " + e.getMessage());
+        if (bookSearchRepository != null) {
+            try {
+                bookSearchRepository.save(updatedBook);
+            } catch (Exception e) {
+                System.err.println("同步浏览量到 Elasticsearch 失败（不影响浏览）: " + e.getMessage());
+            }
         }
-        
         return updatedBook;
     }
 
     public void syncAllBooksToElasticsearch() {
+        if (bookSearchRepository == null) {
+            System.out.println("ES 未启用，跳过同步");
+            return;
+        }
         try {
             List<Book> allBooks = bookRepository.findAll();
             bookSearchRepository.deleteAll();
@@ -121,18 +130,19 @@ public class BookService {
                .replaceAll("\\s+", " ")
                .trim();
                
-        try {
-            SearchHits<Book> searchHits = bookSearchRepository.searchByKeyword(keyword);
-            
-            return searchHits.getSearchHits()
-                .stream()
-                .map(hit -> hit.getContent())
-                .collect(Collectors.toList());
-            
-        } catch (Exception e) {
-            System.err.println("Elasticsearch 搜索失败，回退到数据库搜索: " + e.getMessage());
-            return bookRepository.findByKeyword(keyword);
+        if (bookSearchRepository != null) {
+            try {
+                SearchHits<Book> searchHits = bookSearchRepository.searchByKeyword(keyword);
+                return searchHits.getSearchHits()
+                    .stream()
+                    .map(hit -> hit.getContent())
+                    .collect(Collectors.toList());
+            } catch (Exception e) {
+                System.err.println("Elasticsearch 搜索失败，回退到数据库搜索: " + e.getMessage());
+            }
         }
+        // ES 未启用或失败时使用 MySQL 兜底
+        return bookRepository.findByKeyword(keyword);
     }
     
     public List<Book> getAllBooks() {

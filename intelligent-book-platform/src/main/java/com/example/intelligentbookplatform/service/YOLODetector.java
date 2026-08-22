@@ -35,10 +35,15 @@ import ai.djl.ndarray.types.Shape;
 import ai.djl.translate.Batchifier;
 import ai.djl.translate.Translator;
 import ai.djl.translate.TranslatorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.annotation.PostConstruct;
 
 @Component
 public class YOLODetector {
+
+    private static final Logger logger = LoggerFactory.getLogger(YOLODetector.class);
 
     private Predictor<Image, DetectedObjects> predictor;
     private final YOLOConfig config;
@@ -49,11 +54,15 @@ public class YOLODetector {
     }
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         try (InputStream modelStream = new ClassPathResource(config.getModelPath()).getInputStream()) {
             Model model = Model.newInstance("OnnxRuntime");
             model.load(modelStream);
             this.predictor = model.newPredictor(buildTranslator());
+            logger.info("YOLO 模型加载成功：" + config.getModelPath());
+        } catch (Exception e) {
+            logger.error("YOLO 模型加载失败（视觉搜索功能不可用，应用继续启动）: " + e.getMessage());
+            this.predictor = null;
         }
     }
 
@@ -198,6 +207,9 @@ return new NDList(floatArray);
     /* ===================== 对外接口 ===================== */
 
     public List<Rectangle> detectBooks(InputStream imageStream) throws IOException {
+    if (predictor == null) {
+        throw new RuntimeException("YOLO 模型未加载，视觉搜索功能不可用");
+    }
     Image image = ImageFactory.getInstance().fromInputStream(imageStream);
     try {
         DetectedObjects detected = predictor.predict(image);
@@ -219,3 +231,7 @@ return new NDList(floatArray);
     }
 }
 }
+
+
+
+

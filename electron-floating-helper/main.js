@@ -23,8 +23,8 @@ let voiceProcess = null;
 let voiceStopTimer = null;
 function startVoiceEngine() {
     const isPackaged = app.isPackaged;
-    const baseDir = isPackaged 
-        ? path.join(process.resourcesPath, 'voice_engine') 
+    const baseDir = isPackaged
+        ? path.join(process.resourcesPath, 'voice_engine')
         : path.join(__dirname, 'voice_engine');
     const batPath = path.join(baseDir, 'start_voice.bat');
 
@@ -41,7 +41,6 @@ let tray;
 function stopVoiceEngine() {
     if (voiceProcess) {
         console.log("正在关闭语音引擎...");
-        // Windows 下使用 taskkill /F /T 确保杀掉 cmd 及其启动的 python 子进程
         const { exec } = require('child_process');
         exec(`taskkill /pid ${voiceProcess.pid} /T /F`, (err) => {
             if (err) console.error("强制关闭引擎失败:", err);
@@ -55,35 +54,35 @@ function createWindow() {
   const currentHeight = Math.round(config.height * config.zoomFactor);
 
   mainWindow = new BrowserWindow({
-    width: currentWidth, 
-    height: currentHeight, 
+    width: currentWidth,
+    height: currentHeight,
     frame: false,
     alwaysOnTop: config.alwaysOnTop,
-    transparent: true, 
-    skipTaskbar: true, 
+    transparent: true,
+    skipTaskbar: true,
     resizable: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), 
-      nodeIntegration: false, 
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
       contextIsolation: true
     }
   });
   mainWindow.loadFile('index.html');
   mainWindow.setOpacity(config.opacity);
-  
-  // === 【重构】完美的吸附与防抖拖拽逻辑 ===
-  let isDocked = false;      
-  let dockSide = null; 
+
+  // === 防抖拖拽的边缘吸附逻辑 ===
+  let isDocked = false;
+  let dockSide = null;
   let isResizing = false;
-  let snapTimeout = null; // 防抖定时器
-  const DOCK_THRESHOLD = 20; 
-  const BALL_SIZE = 60; 
+  let snapTimeout = null;
+  const DOCK_THRESHOLD = 20;
+  const BALL_SIZE = 60;
 
   mainWindow.on('move', () => {
     if (isResizing) return;
     const bounds = mainWindow.getBounds();
     const { workArea } = require('electron').screen.getDisplayNearestPoint({ x: bounds.x, y: bounds.y });
-    
+
     const distLeft = bounds.x - workArea.x;
     const distRight = (workArea.x + workArea.width) - (bounds.x + bounds.width);
 
@@ -102,12 +101,9 @@ function createWindow() {
       }
 
       if (pullDistance > 45) {
-        // 用户铁了心要拉出来，直接恢复
         clearTimeout(snapTimeout);
         restoreWindow(bounds.x, bounds.y);
       } else if (pullDistance !== 0) {
-        // 用户在拖拽中（还没拉出足够距离），【千万不要在这时设 bounds 抢鼠标】
-        // 开启防抖：如果停顿 150ms 没动静，说明松手了，才自动弹回边缘
         clearTimeout(snapTimeout);
         snapTimeout = setTimeout(() => {
           if (isDocked && mainWindow && !mainWindow.isDestroyed()) {
@@ -134,12 +130,11 @@ function createWindow() {
     const originalW = Math.round(config.width * config.zoomFactor);
     const originalH = Math.round(config.height * config.zoomFactor);
     const { workArea } = require('electron').screen.getDisplayNearestPoint({ x: currentX, y: currentY });
-    
-    // 【核心修复】计算正确的生成坐标，防止碰到右边缘瞬间再次吸附
+
     let newX = currentX;
-    if (dockSide === 'right') newX = currentX + BALL_SIZE - originalW; // 右边缘对齐
-    
-    const BUFFER = DOCK_THRESHOLD + 15; // 弹出的安全缓冲距离
+    if (dockSide === 'right') newX = currentX + BALL_SIZE - originalW;
+
+    const BUFFER = DOCK_THRESHOLD + 15;
     if (dockSide === 'left' && newX < workArea.x + BUFFER) {
       newX = workArea.x + BUFFER;
     } else if (dockSide === 'right' && (newX + originalW) > workArea.x + workArea.width - BUFFER) {
@@ -150,8 +145,7 @@ function createWindow() {
     mainWindow.setResizable(true);
     mainWindow.setBounds({ x: Math.round(newX), y: currentY, width: originalW, height: originalH });
     mainWindow.setResizable(false);
-    
-    // 给长一点的冷却时间，防止恢复瞬间判定触发 move
+
     setTimeout(() => { isResizing = false; }, 600);
   }
 }
@@ -166,7 +160,7 @@ function createSettingsWindow() {
 }
 
 function createTray() {
-  const iconPath = path.join(__dirname, 'assets/nailong.ico'); 
+  const iconPath = path.join(__dirname, 'assets/nailong.ico');
   tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     { label: '显示助手', click: () => mainWindow.show() },
@@ -218,6 +212,11 @@ function registerShortcuts() {
   }
 }
 
+// DeepSeek API Key —— 通过环境变量读取，避免明文硬编码
+function getDeepSeekApiKey() {
+  return process.env.DEEPSEEK_API_KEY || '';
+}
+
 app.whenReady().then(() => {
   ipcMain.handle('get-config', () => config);
   ipcMain.handle('get-system-info', async () => getSystemData());
@@ -231,7 +230,7 @@ app.whenReady().then(() => {
     const originalW = Math.round(config.width * config.zoomFactor);
     const originalH = Math.round(config.height * config.zoomFactor);
     const targetHeight = isExpanded ? Math.round(500 * config.zoomFactor) : originalH;
-    if (bounds.width === 60) return false; 
+    if (bounds.width === 60) return false;
     mainWindow.setResizable(true);
     mainWindow.setSize(originalW, targetHeight);
     mainWindow.setResizable(false);
@@ -250,86 +249,75 @@ app.whenReady().then(() => {
   }
 });
 
-  // 在 main.js 顶部引入依赖的地方，额外创建一个用于存储聊天的实例
-const Store = require('electron-store');
-const store = new Store(); // 现有的配置 store
-const chatStore = new Store({ name: 'chat-history' }); // 新增：专门存聊天记录的本地文件
+  const chatStore = new Store({ name: 'chat-history' });
 
-// ... (其他代码保持不变) ...
-
-// 1. 新增一个接口，让前端能够获取历史记录
-ipcMain.handle('get-chat-history', () => {
-  // 默认返回一个空数组，如果是第一次打开
-  return chatStore.get('messages', []);
-});
-
-// 2. 修改你原有的 deepseek 聊天接口
-ipcMain.handle('chat-with-deepseek', async (event, text) => {
-  try {
-    // 每次聊天前，先从本地读取历史记录
-    const history = chatStore.get('messages', []);
-    const apiMessages = [
-      { 
-        role: "system", 
-        content: "你是一个可爱，幽默的助手奶龙，但你也不需要太代入这个奶龙角色。除非必要，没太多必要的可以不要说，否则尽量控制在100字以内。" 
-      },...history.map(m => ({ role: m.role, content: m.content })),
-      { role: "user", content: text }
-    ];
-    // 把用户的最新发言加进历史记录
-    history.push({ role: "user", content: text, timestamp: Date.now() });
-
-    // 这里替换成你实际使用的 DeepSeek API 地址和你的 API Key
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk-1e40463b32c44078bce9fb9d9db24b43' // 请确保这里是你的 key
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: apiMessages, // 【正确】这里使用我们组合好的 apiMessages
-        temperature: 0.7
-      })
-    });
-
-    const data = await response.json();
-    if (!response.ok) return `奶龙肚子疼(错误码: ${response.status})：${data.error?.message || '未知错误'}`;
-    
-    if (data.choices && data.choices.length > 0) {
-      const aiResponse = data.choices[0].message.content;
-      history.push({ role: "assistant", content: aiResponse, timestamp: Date.now() });
-
-      chatStore.set('messages', history);
-      return aiResponse;
-    }
-    return "奶龙刚才发呆了，没接住你的话，再试一次？";
-  } catch (error) { 
-    console.error(error);
-    return "奶龙的大脑断网了呜呜呜，快检查网线！"; 
-  }
-});
-  
-  ipcMain.handle('clear-chat-history', (event, range) => {
-  const history = chatStore.get('messages', []);
-  if (range === 'all') {
-    chatStore.set('messages', []);
-    return true;
-  }
-
-  const now = Date.now();
-  const daysMap = { '7days': 7, '30days': 30, '1year': 365 };
-  const cutoffTime = now - (daysMap[range] * 24 * 60 * 60 * 1000);
-
-  // 过滤出比 cutoffTime 新的消息保留下来
-  const newHistory = history.filter(msg => {
-    // 兼容以前没存 timestamp 的老数据，没存一律当作过期数据清理掉
-    const msgTime = msg.timestamp || 0; 
-    return msgTime >= cutoffTime; 
+  ipcMain.handle('get-chat-history', () => {
+    return chatStore.get('messages', []);
   });
 
-  chatStore.set('messages', newHistory);
-  return true;
-});
+  ipcMain.handle('chat-with-deepseek', async (event, text) => {
+    try {
+      const history = chatStore.get('messages', []);
+      const apiMessages = [
+        {
+          role: "system",
+          content: "你是一个可爱，幽默的助手奶龙，但你也不需要太代入这个奶龙角色。除非必要，没太多必要的可以不要说，否则尽量控制在100字以内。"
+        },
+        ...history.map(m => ({ role: m.role, content: m.content })),
+        { role: "user", content: text }
+      ];
+      history.push({ role: "user", content: text, timestamp: Date.now() });
+
+      const apiKey = getDeepSeekApiKey();
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: apiMessages,
+          temperature: 0.7
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) return `奶龙肚子疼(错误码: ${response.status})：${data.error?.message || '未知错误'}`;
+
+      if (data.choices && data.choices.length > 0) {
+        const aiResponse = data.choices[0].message.content;
+        history.push({ role: "assistant", content: aiResponse, timestamp: Date.now() });
+
+        chatStore.set('messages', history);
+        return aiResponse;
+      }
+      return "奶龙刚才发呆了，没接住你的话，再试一次？";
+    } catch (error) {
+      console.error(error);
+      return "奶龙的大脑断网了呜呜呜，快检查网线！";
+    }
+  });
+
+  ipcMain.handle('clear-chat-history', (event, range) => {
+    const history = chatStore.get('messages', []);
+    if (range === 'all') {
+      chatStore.set('messages', []);
+      return true;
+    }
+
+    const now = Date.now();
+    const daysMap = { '7days': 7, '30days': 30, '1year': 365 };
+    const cutoffTime = now - (daysMap[range] * 24 * 60 * 60 * 1000);
+
+    const newHistory = history.filter(msg => {
+      const msgTime = msg.timestamp || 0;
+      return msgTime >= cutoffTime;
+    });
+
+    chatStore.set('messages', newHistory);
+    return true;
+  });
 
   ipcMain.on('update-setting', (event, { key, value }) => {
     config[key] = value; store.set('config', config);
@@ -338,31 +326,29 @@ ipcMain.handle('chat-with-deepseek', async (event, text) => {
     if (key === 'autoStart') app.setLoginItemSettings({ openAtLogin: value, path: app.getPath('exe') });
     if (key === 'zoomFactor') {
       const newW = Math.round(DEFAULTS.width * value); const newH = Math.round(DEFAULTS.height * value);
-      mainWindow.setResizable(true); mainWindow.setSize(newW, newH); mainWindow.setResizable(false); 
+      mainWindow.setResizable(true); mainWindow.setSize(newW, newH); mainWindow.setResizable(false);
     }
     if (key === 'shortcut') registerShortcuts();
     mainWindow.webContents.send('config-updated', config);
   });
- createWindow(); 
- createTray(); 
- registerShortcuts(); 
+ createWindow();
+ createTray();
+ registerShortcuts();
  startSystemUpdate();
   app.setLoginItemSettings({ openAtLogin: config.autoStart, path: app.getPath('exe') });
 
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
-// 在 main.js 的退出事件里增加强制清理
+
 app.on('will-quit', () => {
   if (voiceProcess) {
-    // 使用 Windows 的 taskkill 命令强制杀死整个进程树 (/t)
     const { exec } = require('child_process');
     exec(`taskkill /pid ${voiceProcess.pid} /t /f`, (err) => {
-      if (err) console.error("强制关闭语音引擎失败:", err);
+      if (err) console.error("强制关闭语音失败:", err);
     });
   }
 });
 
-// 监听窗口全部关闭
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();

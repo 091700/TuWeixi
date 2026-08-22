@@ -1,0 +1,35 @@
+# Build outputs
+**/target/
+**/build/
+**/out/
+**/bin/
+**/obj/
+**/dist/
+**/node_modules/
+**/.next/
+**/.nuxt/
+
+# IDE
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db
+
+# Logs
+*.log
+
+# Maven
+**/maven-archiver/
+**/maven-status/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# Gradle
+.gradle/
+local.properties
+*.iml

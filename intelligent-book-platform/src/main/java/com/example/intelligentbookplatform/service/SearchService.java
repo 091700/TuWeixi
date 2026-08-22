@@ -10,53 +10,44 @@ import org.springframework.stereotype.Service;
 
 import com.example.intelligentbookplatform.dto.SearchResult;
 import com.example.intelligentbookplatform.model.Book;
+import com.example.intelligentbookplatform.repository.BookRepository;
 import com.example.intelligentbookplatform.repository.elasticsearch.BookSearchRepository;
 
 @Service
 public class SearchService {
     
+    @Autowired(required = false)
+    private BookSearchRepository bookSearchRepository;   // ES 可选
+    
     @Autowired
-    private BookSearchRepository bookSearchRepository;
+    private BookRepository bookRepository;               // MySQL 兜底
     
-    // 修复：调用新的搜索方法
+    // 调用新的搜索方法（ES 可用时走 ES，否则走 MySQL 模糊搜索）
     public List<Book> searchBooks(String keyword) {
-        SearchHits<Book> searchHits = bookSearchRepository.searchByKeyword(keyword);
-        return searchHits.getSearchHits()
-            .stream()
-            .map(SearchHit::getContent)
-            .collect(Collectors.toList());
-    }
-
-    // 高亮搜索方法也同步修改
-    public List<SearchResult> searchBooksWithHighlight(String keyword) {
-        SearchHits<Book> searchHits = bookSearchRepository.searchByKeyword(keyword);
-        return searchHits.getSearchHits().stream()
-                .map(this::convertToSearchResult)
-                .collect(Collectors.toList());
-    }
-    
-    private SearchResult convertToSearchResult(SearchHit<Book> searchHit) {
-        Book book = searchHit.getContent();
-        SearchResult result = new SearchResult();
-        result.setBook(book);
-        
-        // 处理高亮（保持不变）
-        if (searchHit.getHighlightFields() != null) {
-            List<String> titleHighlights = searchHit.getHighlightFields().get("title");
-            List<String> authorHighlights = searchHit.getHighlightFields().get("author");
-            List<String> descriptionHighlights = searchHit.getHighlightFields().get("description");
-            
-            if (titleHighlights != null && !titleHighlights.isEmpty()) {
-                result.setHighlightedTitle(titleHighlights.get(0));
-            }
-            if (authorHighlights != null && !authorHighlights.isEmpty()) {
-                result.setHighlightedAuthor(authorHighlights.get(0));
-            }
-            if (descriptionHighlights != null && !descriptionHighlights.isEmpty()) {
-                result.setHighlightedDescription(descriptionHighlights.get(0));
+        if (bookSearchRepository != null) {
+            try {
+                SearchHits<Book> searchHits = bookSearchRepository.searchByKeyword(keyword);
+                return searchHits.getSearchHits()
+                    .stream()
+                    .map(SearchHit::getContent)
+                    .collect(Collectors.toList());
+            } catch (Exception e) {
+                System.err.println("ES 搜索失败，回退到 MySQL: " + e.getMessage());
             }
         }
-        
-        return result;
+        return bookRepository.findByKeyword(keyword);
+    }
+
+    // 高亮搜索方法（ES 不可用时退化为普通结果）
+    public List<SearchResult> searchBooksWithHighlight(String keyword) {
+        List<Book> books = searchBooks(keyword);
+        return books.stream().map(book -> {
+            SearchResult result = new SearchResult();
+            result.setBook(book);
+            result.setHighlightedTitle(book.getTitle());
+            result.setHighlightedAuthor(book.getAuthor());
+            result.setHighlightedDescription(book.getDescription());
+            return result;
+        }).collect(Collectors.toList());
     }
 }

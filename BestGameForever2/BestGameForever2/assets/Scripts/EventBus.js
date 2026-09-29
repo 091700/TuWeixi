@@ -1,0 +1,1 @@
+window.EventBus = new cc.EventTarget();

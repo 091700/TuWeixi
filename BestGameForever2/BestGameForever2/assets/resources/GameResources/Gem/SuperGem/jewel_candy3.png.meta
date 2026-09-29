@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "87c19d44-35d4-4420-ba99-8d3571e6e890",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 160,
+  "height": 160,
+  "platformSettings": {},
+  "subMetas": {
+    "jewel_candy3": {
+      "ver": "1.0.4",
+      "uuid": "47b3829b-af29-42d1-9602-5a3d36251b06",
+      "rawTextureUuid": "87c19d44-35d4-4420-ba99-8d3571e6e890",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 6,
+      "offsetY": 7.5,
+      "trimX": 24,
+      "trimY": 7,
+      "width": 124,
+      "height": 131,
+      "rawWidth": 160,
+      "rawHeight": 160,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

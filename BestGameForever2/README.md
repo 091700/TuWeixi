@@ -6,6 +6,29 @@
 
 ---
 
+## 📸 游戏截图
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <b>🏠 开始界面</b><br>
+      <img src="BestGameForever2/screenshot/startscene.png" width="320" alt="开始界面">
+    </td>
+    <td align="center" width="50%">
+      <b>🌍 世界选择</b><br>
+      <img src="BestGameForever2/screenshot/selectworld.png" width="320" alt="世界选择">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <b>🎮 游戏主界面</b><br>
+      <img src="BestGameForever2/screenshot/gamescene.png" width="320" alt="游戏主界面">
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 游戏流程
 
 ```

@@ -85,8 +85,7 @@ window.BestGameView = cc.Class({
         }
     },
 
-    //颜色名 → 数组下标
-    gemIndex:function(name){
+    gemIndex:function(name){//颜色编号
         if(name === 'blue')return 0;
         if(name === 'green')return 1;
         if(name === 'purple')return 2;
@@ -95,9 +94,7 @@ window.BestGameView = cc.Class({
         return 5;
     },
 
-    //显示教程:弹出弹窗,在手指标出的两格之间放手指
-    //手指标(r1,c1)(r2,c2),不需要手指时传-1
-    showtodorial:function(prefab,r1,c1,r2,c2){
+    showtodorial:function(prefab,r1,c1,r2,c2){//教程
         this.tipNode = cc.instantiate(prefab);
         this.tipNode.parent = cc.find('Canvas');
         this.tipNode.setPosition(0,0);
@@ -112,24 +109,86 @@ window.BestGameView = cc.Class({
     //棋子交换动画，让A和B互相滑动到对面的位置
     playChangeAnim:function(r1,c1,r2,c2,callback){
         var model = this.model;
-        var x1 = model.cellX(c1);
-        var y1 = model.cellY(r1);
-        var x2 = model.cellX(c2);
-        var y2 = model.cellY(r2);
         var gemA = this.Board.getChildByName('gem_'+r1+'_'+c1);
         var gemB = this.Board.getChildByName('gem_'+r2+'_'+c2);
         var changeTime = 0.2;
         cc.tween(gemA)
-            .to(changeTime,{x:x2,y:y2})
+            .to(changeTime,{x:model.cellX(c2),y:model.cellY(r2)})
             .start();
         cc.tween(gemB)
-            .to(changeTime,{x:x1,y:y1})
+            .to(changeTime,{x:model.cellX(c1),y:model.cellY(r1)})
             .call(function(){
+                gemA.name = 'gem_'+r2+'_'+c2;
+                gemB.name = 'gem_'+r1+'_'+c1;
                 callback();//通知controller换数据
             })
             .start();
 
     },
+    //消除下落动画
+    playClearAnim:function(callback){
+        this.clearSteps = this.model.steps;
+        this.clearIndex = 0;
+        this.clearEndCallback = callback;
+        this.playNextStep();
+    },
+
+    playNextStep:function(){
+        if(this.clearIndex>=this.clearSteps.length){
+            this.clearEndCallback();
+            return;
+        }
+        var step = this.clearSteps[this.clearIndex];
+        this.clearIndex = this.clearIndex+1;
+        this.playStep(step);
+    },
+
+    playStep:function(step){
+        var that = this;
+        var model = this.model;
+        var TIME = 0.25;
+        var DROP_Y = model.TOP_Y+150;
+        this.deadList = [];
+        for(var i = 0;i<step.cleared.length;i++){
+            var cr = step.cleared[i][0];
+            var cl = step.cleared[i][1];
+            var dead = this.Board.getChildByName('gem_'+cr+'_'+cl);
+            dead.name = 'dead';
+            this.deadList.push(dead);
+            cc.tween(dead)
+                .to(TIME,{scale:0})
+                .start();
+        }
+        for(var j = 0;j<step.falls.length;j++){//新宝石滑到格子
+            var f = step.falls[j];
+            var x = model.cellX(f.c);
+            var y = model.cellY(f.toR);
+            if(f.fromR>=0){
+                var old = this.Board.getChildByName('gem_'+f.fromR+'_'+f.c);
+                old.name = 'gem_'+f.toR+'_'+f.c;
+                cc.tween(old)
+                    .to(TIME,{x:x,y:y})
+                    .start();
+            }
+            else{
+                var fresh = new cc.Node('gem_'+f.toR+'_'+f.c);
+                fresh.parent = this.Board;
+                fresh.setPosition(x,DROP_Y);
+                var sp = fresh.addComponent(cc.Sprite);
+                sp.spriteFrame = this.gemFrames[this.gemIndex(f.gem)];
+                fresh.width = 90;
+                fresh.height = 90;
+                cc.tween(fresh).to(TIME,{x:x,y:y}).start();
+            }
+        }
+        this.scheduleOnce(function(){
+            for(var k = 0;k<that.deadList.length;k++){
+                that.deadList[k].destroy();
+            }
+            that.playNextStep();
+        },TIME);
+    },
+
     //手指在教程格子之间拖动
     playHand:function(r1,c1,r2,c2){
         var model = this.model;
@@ -150,20 +209,20 @@ window.BestGameView = cc.Class({
             .start();
     },
 
-    //收起当前教程界面(弹窗、手指)
+    //消除教程
     hidetodorial:function(){
         if(this.tipNode){
             this.tipNode.destroy();
             this.tipNode = null;
         }
         if(this.handNode){
-            cc.Tween.stopAllByTarget(this.handNode);   // 先停掉手指的循环动画
+            cc.Tween.stopAllByTarget(this.handNode);
             this.handNode.destroy();
             this.handNode = null;
         }
     },
 
-    //更新倒计时,进度条用Sprite填充模式:fillRange越小,右侧越少(左侧保持不动,不碰锚点)
+    //更新进度条
     updateTime:function(left){
         left = Math.floor(left);   //先取整,防止显示跑到小数点后面
         var minutes = Math.floor(left/60);
@@ -181,7 +240,7 @@ window.BestGameView = cc.Class({
         this.bestScoreLabel.string = best + '';
     },
 
-    //胜利:从棋盘上方掉一颗GoalGem,落到最下面一行
+    //结算宝石
     showGoalGem:function(){
         var model = this.model;
         this.goalNode = cc.instantiate(this.goalGemPrefab);

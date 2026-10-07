@@ -9073,7 +9073,7 @@ declare namespace cc {
 		getHtmlElementObj(): HTMLImageElement;		
 		/**
 		!#en
-		Destory this texture and immediately release its video memory. (Inherit from cc.Object.destroy)<br>
+		Destroy this texture and immediately release its video memory. (Inherit from cc.Object.destroy)<br>
 		After destroy, this object is not usable anymore.
 		You can use cc.isValid(obj) to check whether the object is destroyed before accessing it.
 		!#zh

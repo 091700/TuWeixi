@@ -127,8 +127,7 @@ window.BestGameModel = cc.Class({
         return list;
     },
 
-    //消除+下落:三连清空、背景降一级,宝石往下掉、顶部补新,直到没有三连
-    //返回消除总数(一颗10分)
+    //消除下落，背景降级，返回消除的总数
     clearAndFall:function(){
         var totalCleared = 0;
         this.steps = [];
@@ -146,7 +145,17 @@ window.BestGameModel = cc.Class({
                 if(cell.level > 0){
                     cell.level--;
                 }
-                step.cleared.push([r,c]);
+                var already = false;
+                for(var k = 0;k<step.cleared.length;k++){
+                    if(step.cleared[k][0]===r&&step.cleared[k][1]===c){
+                        already = true;
+                        break;
+                    }
+
+                }
+                if(already===false){
+                    step.cleared.push([r,c]);
+                }
             }
 
             //棋子下落
@@ -167,7 +176,7 @@ window.BestGameModel = cc.Class({
                     if(cell2.gem === ''){
                         var index = Math.floor(Math.random()*6);
                         cell2.gem = this.STAR_COLOR[index];
-                        step.falls.push({c:col,feomR:-1,toR:row,gem:cell2.gem});
+                        step.falls.push({c:col,fromR:-1,toR:row,gem:cell2.gem});
                     }
                 }
             }this.steps.push(step);

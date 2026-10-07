@@ -69,20 +69,29 @@ window.BestGameController = cc.Class({
         return {r:row,c:col};
     },
 
-    //执行一次交换:有匹配就消除+下落+加分;没匹配Model会换回去
+    //交换棋子
     doChange:function(r1,c1,r2,c2){
         var model = this.model;
-        model.busy = true;
+        var view = this.view;
+        model.busy = true;//动画期间防止玩家多次点击
         var that = this;
-        this.view.playChangeAnim(r1,c1,r2,c2,function(){
-            var cleared = 0;
+        view.playChangeAnim(r1,c1,r2,c2,function(){
             if(model.tryChange(r1,c1,r2,c2)){
-                cleared = model.clearAndFall();
+                var cleared = model.clearAndFall();
                 model.score = model.score + cleared*10;
-            }
-            that.refreshBoard(cleared);
+            
+            view.playClearAnim(function(){
+                that.refreshBoard(cleared);
             model.busy = false;
-        })
+            });      
+        }else{
+            //如果没消除，两颗棋子划回来
+            view.playChangeAnim(r1,c1,r2,c2,function(){
+                that.refreshBoard(0);
+                model.busy = false;
+            });
+        }}
+    );
     },
 
     //棋盘变了的统一处理:刷新分数+推进教程+胜利判断
@@ -138,7 +147,7 @@ window.BestGameController = cc.Class({
         }
     },
 
-    //教程2做完→正式开始:棋盘保持原样(教程的棋就是正式玩的那盘),开始计时
+    //教程二结束开始计时
     startPlay:function(){
         this.model.state = 'playing';
         this.model.time = this.model.TOTAL_TIME;

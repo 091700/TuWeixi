@@ -146,7 +146,9 @@ window.BestGameView = cc.Class({
     playStep:function(step){
         var that = this;
         var model = this.model;
-        var TIME = 0.25;
+        var SPEED = 1200;
+        var MIN_TIME = 0.15;
+        var stepTime = MIN_TIME;
         var DROP_Y = model.TOP_Y+150;
         this.deadList = [];
         for(var i = 0;i<step.cleared.length;i++){
@@ -154,39 +156,49 @@ window.BestGameView = cc.Class({
             var cl = step.cleared[i][1];
             var dead = this.Board.getChildByName('gem_'+cr+'_'+cl);
             dead.name = 'dead';
+            dead.zIndex = 1;
             this.deadList.push(dead);
             cc.tween(dead)
-                .to(TIME,{scale:0})
+                .to(MIN_TIME,{scale:0})
                 .start();
         }
         for(var j = 0;j<step.falls.length;j++){//新宝石滑到格子
             var f = step.falls[j];
             var x = model.cellX(f.c);
             var y = model.cellY(f.toR);
+            var node = null;
             if(f.fromR>=0){
-                var old = this.Board.getChildByName('gem_'+f.fromR+'_'+f.c);
-                old.name = 'gem_'+f.toR+'_'+f.c;
-                cc.tween(old)
-                    .to(TIME,{x:x,y:y})
-                    .start();
+                node = this.Board.getChildByName('gem_'+f.fromR+'_'+f.c);
+                node.name = 'gem_'+f.toR+'_'+f.c;
             }
             else{
-                var fresh = new cc.Node('gem_'+f.toR+'_'+f.c);
-                fresh.parent = this.Board;
-                fresh.setPosition(x,DROP_Y);
-                var sp = fresh.addComponent(cc.Sprite);
+                node = new cc.Node('gem_'+f.toR+'_'+f.c);
+                node.parent = this.Board;
+                node.setPosition(x,DROP_Y);
+                var sp = node.addComponent(cc.Sprite);
                 sp.spriteFrame = this.gemFrames[this.gemIndex(f.gem)];
-                fresh.width = 90;
-                fresh.height = 90;
-                cc.tween(fresh).to(TIME,{x:x,y:y}).start();
+                node.width = 90;
+                node.height = 90;
             }
+        
+        var dist = Math.abs(y-node.y);
+        var t = dist/SPEED;
+        if(t<MIN_TIME){
+            t = MIN_TIME;
+        }
+        node.zIndex = 1;
+        cc.tween(node)
+            .to(t,{
+                x:x,y:y
+            })
+            .start();
         }
         this.scheduleOnce(function(){
             for(var k = 0;k<that.deadList.length;k++){
                 that.deadList[k].destroy();
             }
             that.playNextStep();
-        },TIME);
+        },stepTime);
     },
 
     //手指在教程格子之间拖动

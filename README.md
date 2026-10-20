@@ -1,4 +1,4 @@
-# 👨‍💻 TuWeixi  — Full-Stack Developer & AI Engineer
+# 👨‍💻 TuWeixi  — Full-Stack Developer
 
 [![GitHub Stars](https://img.shields.io/github/stars/091700/TuWeixi?style=flat&color=blue)](https://github.com/091700/TuWeixi/stargazers)
 [![Projects](https://img.shields.io/badge/Projects-12-blue?style=flat)](https://github.com/091700/TuWeixi)

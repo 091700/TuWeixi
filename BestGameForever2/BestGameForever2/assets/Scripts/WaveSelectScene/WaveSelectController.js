@@ -31,6 +31,7 @@ window.WaveSelectController = cc.Class({
         if (state === 'locked') {
             this.view.showTip();
         } else {
+            window.CurrentLevel = level;
             var page = cc.find('Canvas/WaveSelectPage');
             var gamePage = cc.instantiate(this.gamePagePrefab);
             gamePage.setPosition(720,0);

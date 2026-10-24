@@ -55,6 +55,10 @@ window.LevelSelectView = cc.Class({
             var node = cc.instantiate(world.unlocked ? this.unlockPrefab : this.lockedPrefab); 
             node.setPosition(this.slots[i].x + offsetX, this.slots[i].y);
             node.getChildByName('WorldNumberLabel').getComponent(cc.Label).string = world.name; 
+            var starNode = node.getChildByName('Star');
+            if(starNode){
+                starNode.getChildByName('StarNumberLabel').getComponent(cc.Label).string = this.model.getWorldStars(worldIndex)+'/'+this.model.TotalStarsPerWorld;
+            }
             node.on('click',(function(index){ 
                 return function(){
                     window.EventBus.emit('WorldClicked',index); 
@@ -121,6 +125,10 @@ window.LevelSelectView = cc.Class({
             node.x = this.slots[j].x + dir*720;
             node.y = this.slots[j].y; 
             node.getChildByName('WorldNumberLabel').getComponent(cc.Label).string = world.name; 
+            var starNode2 = node.getChildByName('Star');
+            if(starNode2){
+                starNode2.getChildByName('StarNumberLabel').getComponent(cc.Label).string = model.getWorldStars(worldIndex)+'/'+model.TotalStarsPerWorld;
+            }
             node.on('click',(function(index){ 
                 return function(){
                     window.EventBus.emit('WorldClicked',index);

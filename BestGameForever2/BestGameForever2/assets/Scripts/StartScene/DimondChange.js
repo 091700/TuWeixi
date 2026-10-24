@@ -12,7 +12,6 @@ cc.Class({
         } while (j === i);//截取两个不同的棋子的坐标
         var ax = gems[i].x, ay = gems[i].y;
         var bx = gems[j].x, by = gems[j].y;
-
         cc.tween(gems[i]).to(0.5,{x:bx,y:by}).start();
         cc.tween(gems[j]).to(0.5,{x:ax,y:ay}).start();
     }

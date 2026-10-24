@@ -1,24 +1,31 @@
 window.WaveSelectModel = cc.Class({
     ctor: function () {
-        this.world = window.currentWorld || 1;//从LevelSelect传出的序号
+        this.world = window.CurrentWorld || 1;//从LevelSelect传出的序号
         this.TotalLevel = 99;                    
-        this.Completed = 0;
+        this.Completed = parseInt(localStorage.getItem('completed_'+this.world)||'0',10);
         this.PageSize = 9;
         this.CurrentPage = 1;// 当前页
         this.stars = [];
         for (var i = 0; i < this.TotalLevel; i++) {
-            this.stars.push(0);
+            this.stars.push(parseInt(localStorage.getItem('stars_'+this.world+'_'+(i+1))||'0',10));
         }
-        this.stars[0] = 3;
-        this.stars[1] = 2;
-        this.stars[2] = 1;
+        this.DoneCount = 0;
+        for (var j = 0; j < this.TotalLevel; j++) {
+            if (this.stars[j] > 0) {
+                this.DoneCount = this.DoneCount+1;
+            }
+        }
+        if (this.DoneCount === 0 && this.Completed > 0) {
+            this.DoneCount = this.Completed;
+        }
+        this.MaxUnlocked = this.DoneCount+3;
     },
 
     getState: function (level) {
-        if (level <= this.Completed) {
+        if (this.stars[level-1] > 0) {
             return 'played';
         }
-        if (level <= this.Completed+3) {
+        if (level <= this.MaxUnlocked) {
             return 'new';
         }
         return 'locked';

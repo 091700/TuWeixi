@@ -8,12 +8,11 @@ window.StartController = cc.Class({
     },
 
     onLoad: function(){
-        this.model = new StartModel();
+        window.BGM.start();
         this.StartBtn.node.on('click', this.onStartBtnClick, this);
     },
 
     onStartBtnClick: function(){
-        this.model.onStartPressed();
         window.EventBus.emit('startGame');
     }
 })

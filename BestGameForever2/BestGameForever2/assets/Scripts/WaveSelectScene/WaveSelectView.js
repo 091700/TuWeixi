@@ -65,6 +65,8 @@ window.WaveSelectView = cc.Class({
             node.getChildByName('1Star').active = starCount >= 1;
             node.getChildByName('2Star').active = starCount >= 2;
             node.getChildByName('3Star').active = starCount >= 3;
+            var best = parseInt(localStorage.getItem('best_'+model.world+'_'+level)||'0',10);
+            node.getChildByName('Score').getComponent(cc.Label).string = best+'';
         }
         node.on('click',(function(lv){
             return function () {

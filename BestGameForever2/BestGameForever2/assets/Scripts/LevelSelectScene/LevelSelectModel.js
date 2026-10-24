@@ -10,6 +10,15 @@ window.LevelSelectModel = cc.Class({
         }//生成八个世界名
         this.PageSize = 4;//页面里框框数量
         this.CurrentPage = 1; //开始在第一页
+        this.WorldLevelCount = 99;
+        this.TotalStarsPerWorld = this.WorldLevelCount*3;
+    },
+    getWorldStars:function(worldNumber){
+        var total = 0;
+        for(var i = 1;i<=this.WorldLevelCount;i++){
+            total = total+parseInt(localStorage.getItem('stars_'+worldNumber+'_'+i)||'0',10);
+        }
+        return total;
     },
     getTotalPages:function(){
         return Math.ceil(this.worlds.length/this.PageSize);//向上取整总页数

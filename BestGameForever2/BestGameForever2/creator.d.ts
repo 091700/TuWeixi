@@ -7666,10 +7666,10 @@ declare namespace cc {
 	cc.MotionStreak manages a Ribbon based on it's motion in absolute space.                 <br/>
 	You construct it with a fadeTime, minimum segment size, texture path, texture            <br/>
 	length and color. The fadeTime controls how long it takes each vertex in                 <br/>
-	the streak to fade out, the minimum segment size it how many pixels the                  <br/>
-	streak will move before adding a new ribbon segment, and the texture                     <br/>
+	the comboCount to fade out, the minimum segment size it how many pixels the                  <br/>
+	comboCount will move before adding a new ribbon segment, and the texture                     <br/>
 	length is the how many pixels the texture is stretched across. The texture               <br/>
-	is vertically aligned along the streak segment.
+	is vertically aligned along the comboCount segment.
 	!#zh 运动轨迹，用于游戏对象的运动轨迹上实现拖尾渐隐效果。 */
 	export class MotionStreak extends Component implements BlendFunc {		
 		/** !#en

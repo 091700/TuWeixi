@@ -73,24 +73,30 @@
       },
       {
         "__id__": 5
-      }
-    ],
-    "_active": true,
-    "_components": [
+      },
       {
         "__id__": 62
       },
       {
         "__id__": 63
-      },
-      {
-        "__id__": 64
-      },
+      }
+    ],
+    "_active": true,
+    "_components": [
       {
         "__id__": 65
       },
       {
         "__id__": 66
+      },
+      {
+        "__id__": 67
+      },
+      {
+        "__id__": 68
+      },
+      {
+        "__id__": 69
       }
     ],
     "_prefab": null,
@@ -180,7 +186,7 @@
       "array": [
         0,
         0,
-        362.6707017265482,
+        1108.5125168440816,
         0,
         0,
         0,
@@ -453,9 +459,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 221,
+      "r": 255,
       "g": 255,
-      "b": 208,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -2321,6 +2327,7 @@
     "iconB": {
       "__uuid__": "26e6860b-cf1f-4648-b5b0-59d7d0bac4d3"
     },
+    "isMusic": true,
     "_id": "30LKn2YO9MJr39Hk4S5Kur"
   },
   {
@@ -2770,6 +2777,7 @@
     "iconB": {
       "__uuid__": "ed8e2320-52be-4a2e-8d55-5e0ad2bca9c1"
     },
+    "isMusic": false,
     "_id": "a5DocxkSFO7aZX8Ei5K1R9"
   },
   {
@@ -3005,6 +3013,155 @@
     },
     "_width": 1.5,
     "_id": "98qkJ0ye5JOqp+QeGLi3Sc"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "New TiledMap",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "59W0SIRIVJh48AbG/DedY6"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "New Directional Light",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 64
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -337.043,
+        578.875,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": true,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "b0AMKZGBpAmaf8tundO/ZA"
+  },
+  {
+    "__type__": "cc.Light",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 63
+    },
+    "_enabled": true,
+    "_type": 0,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_intensity": 1,
+    "_range": 1000,
+    "_spotAngle": 60,
+    "_spotExp": 1,
+    "_shadowType": 0,
+    "_shadowResolution": 1024,
+    "_shadowDarkness": 0.5,
+    "_shadowMinDepth": 1,
+    "_shadowMaxDepth": 1000,
+    "_shadowFrustumSize": 50,
+    "_shadowBias": 0.0005,
+    "_id": "0aZbPL0VpAJ7beAxi0tRc+"
   },
   {
     "__type__": "cc.Canvas",

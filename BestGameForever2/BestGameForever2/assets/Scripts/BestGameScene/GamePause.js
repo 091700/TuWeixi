@@ -28,14 +28,18 @@ cc.Class({
     },
     onPause:function(){
         this.pauseScene.active = true;
+        this.pauseScene.zIndex = 100;//放到最上层
+        window.EventBus.emit('GamePause');
     },
     onResume:function(){
         this.pauseScene.active = false;
+        window.EventBus.emit('GameResume');
     },
-    onRestart: function(){
-        cc.director.loadScene('BestGameScene');
+    onRestart:function(){
+        this.pauseScene.active = false;
+        window.EventBus.emit('GameRestart');
     },
-    onMenu: function () {
+    onMenu:function () {
         this.pauseScene.active = false;
         var page = cc.find('Canvas/Page');
         var wavePage = cc.instantiate(this.wavePagePrefab);

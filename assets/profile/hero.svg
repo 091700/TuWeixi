@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280" role="img" aria-label="TuWeixi — 12 projects">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A0E1C"/>
+      <stop offset="0.55" stop-color="#131A33"/>
+      <stop offset="1" stop-color="#1A1030"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5B8CFF"/>
+      <stop offset="0.5" stop-color="#9B6BFF"/>
+      <stop offset="1" stop-color="#FF6BD6"/>
+    </linearGradient>
+    <radialGradient id="glowBlue" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#5B8CFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5B8CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowPurple" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#9B6BFF" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#9B6BFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gemBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8FD8FF"/>
+      <stop offset="1" stop-color="#2F7BFF"/>
+    </linearGradient>
+    <linearGradient id="gemGreen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9BFFC8"/>
+      <stop offset="1" stop-color="#17B869"/>
+    </linearGradient>
+    <linearGradient id="gemPurple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E3B8FF"/>
+      <stop offset="1" stop-color="#8A3DFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="280" fill="url(#bg)"/>
+
+  <circle cx="180" cy="60" r="220" fill="url(#glowBlue)"/>
+  <circle cx="1030" cy="220" r="240" fill="url(#glowPurple)"/>
+
+  <g stroke="#4A5B86" stroke-opacity="0.16" stroke-width="1">
+    <path d="M0 40h1200M0 90h1200M0 140h1200M0 190h1200M0 240h1200"/>
+    <path d="M80 0v280M180 0v280M280 0v280M380 0v280M480 0v280M580 0v280M680 0v280M780 0v280M880 0v280M980 0v280M1080 0v280M1180 0v280"/>
+  </g>
+
+  <g opacity="0.92">
+    <polygon points="986,100 1028,131 1012,182 960,182 944,131" fill="url(#gemBlue)"/>
+    <polygon points="986,100 1028,131 986,146 944,131" fill="#C9ECFF" opacity="0.55"/>
+    <polygon points="1074,132 1106,156 1094,196 1054,196 1042,156" fill="url(#gemGreen)"/>
+    <polygon points="1074,132 1106,156 1074,167 1042,156" fill="#D7FFE9" opacity="0.5"/>
+    <polygon points="1136,160 1158,176 1150,203 1122,203 1114,176" fill="url(#gemPurple)"/>
+    <polygon points="1136,160 1158,176 1136,184 1114,176" fill="#F1DDFF" opacity="0.5"/>
+    <polygon points="1035,78 1048,88 1042,106 1028,106 1022,88" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="1176" cy="118" r="3" fill="#8FD8FF" opacity="0.6"/>
+    <circle cx="946" cy="216" r="2.5" fill="#9BFFC8" opacity="0.5"/>
+  </g>
+
+  <text x="80" y="138" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="74" font-weight="700" fill="#FFFFFF" letter-spacing="1">TuWeixi</text>
+  <text x="82" y="180" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#93A4CC" letter-spacing="4">12 PROJECTS  ·  AI AGENT  ·  FULL-STACK  ·  GAME</text>
+  <text x="82" y="214" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#5C6B91" letter-spacing="1.5">github.com/091700</text>
+
+  <rect x="0" y="276" width="1200" height="4" fill="url(#accent)"/>
+</svg>
